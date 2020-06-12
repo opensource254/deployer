@@ -1,0 +1,6 @@
+[
+    {
+        "name": "Awesome-App",
+        "command": "cd path && git pull"
+    }
+]

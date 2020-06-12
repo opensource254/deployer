@@ -1,0 +1,1 @@
+cd /home/stanley/Work/opensource254/covid-admin-dashboard && git pull && npm i

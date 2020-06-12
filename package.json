@@ -15,5 +15,23 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
-  }
+  },
+  "description": "Deploy you apps in seconds using the Githubs webhook",
+  "main": "bin/www",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/opensource254/deployer.git"
+  },
+  "keywords": [
+    "CI",
+    "CD",
+    "Deployment",
+    "Webhook"
+  ],
+  "author": "opensource254",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/opensource254/deployer/issues"
+  },
+  "homepage": "https://github.com/opensource254/deployer#readme"
 }

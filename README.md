@@ -7,6 +7,22 @@
 3. Create the deployments config `cp deployment.config.json.example deployment.config.json`
 4. Add your config and Start the server
 
+## Configuration
+Your Deployment configurations live in the `deployment.config.json` file.
+### Sample Config
+```json
+[
+    {
+        "name": "Awesome-App",
+        "command": "cd path && git pull"
+    }
+]
+```
+It is basically and array of Objects.
+#### Params
+1. name: This is the name of your repo as it is on github. eg `opensource254/deployer` would be deployer.
+2. Command: The bash command you want to run. This is basically a deploy command. Eg. For an Expressjs application using `pm2` this would be `cd <full path && git pull && npm i && npm restart [process-id]>`
+
 If you want to change the port that this app runs, create a `.env` file and add `PORT=<prefered_port>`
 
 At this point, Your endpoint is ready for webhooks. It would be a great idea to run this behind a reverse proxy and give it a domain or a subdomain like. `mydomain.com` Then on the Github webhook settings,
@@ -17,6 +33,9 @@ At this point, Your endpoint is ready for webhooks. It would be a great idea to 
 - [x] Basic functionality
 - [ ] Refactor
 - [ ] Webhook Security
+
+## Contributing
+Please visit our [guidelines](https://opensource254.github.io/guidelines)
 
 ## Disclaimer 
 This project has not been properly tested use it at your own risk

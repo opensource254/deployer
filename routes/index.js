@@ -9,7 +9,7 @@ const deploymentConfig = JSON.parse(fs.readFileSync('deployment.config.json', 'u
 /* GET home Route. */
 router.get('/', function (req, res, next) {
   res.json({
-    'success': 'Your deployer works. Please read the docs for more info'
+    'Message': 'Hurray! 🙌. Your Deployer is live ninja. Time to be productive'
   })
 });
 

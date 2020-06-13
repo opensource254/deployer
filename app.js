@@ -13,5 +13,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/', indexRouter);
+app.all('*', (req, res) => {
+    res.status(404).json({ error: `Sorry you cannot ${req.method} ${req.path}.` })
+})
 
 module.exports = app;

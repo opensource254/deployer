@@ -33,7 +33,7 @@ router.post('/', (req, res) => {
   }
   exec(`${repositoryConfig.command}`, (_err, stdout, stderr) => {
     if (stdout) {
-     // TODO Make this avialable to the user
+      // TODO Make this avialable to the user
     }
     if (stderr) {
       fs.writeFileSync('error.log', `${new Date().toUTCString()}, Config: ${repositoryConfig.name}, Error: ${stderr}`, {
@@ -42,7 +42,7 @@ router.post('/', (req, res) => {
       })
     }
   })
-  res.status(201).json('')
+  return res.status(201).json('')
 })
 
 module.exports = router;

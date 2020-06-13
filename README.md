@@ -29,6 +29,14 @@ At this point, Your endpoint is ready for webhooks. It would be a great idea to 
 1. webhook url `https://mydomain.com`
 2. Content Type `application/json`
 
+## Debugging
+Configuration erros are logged in the error.log file. This file is not version controlled.
+```log
+Sat, 13 Jun 2020 10:00:10 GMT Config: your-awesome-config, Error: /bin/sh: 1: c: not found
+Sat, 13 Jun 2020 10:00:18 GMT Config: your-awesome-config, Error: /bin/sh: 1: c: not found
+Sat, 13 Jun 2020 10:01:58 GMT Config: your-awesome-config, Error: /bin/sh: 1: ks: not found
+```
+
 ## TODO
 - [x] Basic functionality
 - [ ] Refactor

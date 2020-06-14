@@ -1,3 +1,4 @@
+![Node.js CI](https://github.com/opensource254/deployer/workflows/Node.js%20CI/badge.svg)
 # Deployer
 > Deploy you apps in seconds using the Githubs webhook
 

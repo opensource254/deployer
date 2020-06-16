@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const Router = express.Router();
 const fs = require('fs');
 const { exec } = require('child_process');
 
@@ -7,14 +7,14 @@ const { exec } = require('child_process');
 const deploymentConfig = JSON.parse(fs.readFileSync('deployment.config.json', 'utf-8'))
 
 /* GET home Route. */
-router.get('/', function (req, res, next) {
+Router.get('/', function (req, res, next) {
   res.json({
     'Message': 'Hurray! 🙌. Your Github Deployer is live'
   })
 });
 
 // Receive the webhook and handle it
-router.post('/', (req, res) => {
+Router.post('/', (req, res) => {
   if (!req.body.repository) {
     res.status(400).json({ error: 'Bad request' })
     return

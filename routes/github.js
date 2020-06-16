@@ -45,4 +45,4 @@ Router.post('/', (req, res) => {
   return res.status(201).json('')
 })
 
-module.exports = router;
+module.exports = Router;

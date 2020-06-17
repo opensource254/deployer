@@ -19,7 +19,17 @@ Your Deployment configurations live in the `deployment.config.json` file.
     }
 ]
 ```
-It is basically and array of Objects.
+It is basically an array.
+If your repository is private, you may want to use [deploy keys](https://developer.github.com/v3/guides/managing-deploy-keys/) or cache your git credentials with the git credentials helper.
+```bash
+git config --global credential.helper 'cache --timeout=600'
+```
+The command above would cache your credentials for 600 seconds. You might want to set-up a cron job to be doing this atleast once a day.
+```bash
+$ sudo crontab -e
+$ 29 0 * * *  git config --global credential.helper 'cache --timeout=31556952'
+```
+That caches your credentials for one year so that your client wont be promted for your git password.
 #### Params
 1. name: This is the name of your repo as it is on github. eg `opensource254/deployer` would be deployer.
 2. Command: The bash command you want to run. This is basically a deploy command. Eg. For an Expressjs application using `pm2` this would be `cd <full path && git pull && npm i && npm restart [process-id]>`

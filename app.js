@@ -6,6 +6,7 @@ const logger = require('morgan')
 const githubRouter = require('./routes/github')
 const bitbucketRouter = require('./routes/bitbucket')
 const gitlabRouter = require('./routes/gitlab')
+const verifyHostName = require('./middleware/verifyHostName')
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
+app.use(verifyHostName())
 
 app.use('/github', githubRouter)
 app.use('/bitbucket', bitbucketRouter)

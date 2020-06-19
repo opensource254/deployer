@@ -71,7 +71,35 @@ class Validate {
         resolve(repositoryConfig)
     })
 
-    // TODO Add Github and Gitlab here
+     /**
+     * Validate the Gitlab's payload
+     * @param {Array} body 
+     */
+    static gitlab = (body = []) => new Promise((resolve, reject) => {
+        /** Ensure the request body has a repository field */
+        if (!body.repository) {
+           reject({ status: 400, message: "Repository Parameter not found in the body" })
+           return
+       }
+
+       /** It is safe to decalre this variable because the param exists */
+       const repositoryName = body.repository.name
+       
+
+       /** Get the config from the config file */
+       const [repositoryConfig] = this.deploymentConfig.filter((config) => {
+           return config.name === repositoryName
+       })
+
+       /** Tell the user about a missing config */
+       if (!repositoryConfig) {
+           reject({ message: `Config entry for ${repositoryName} was not found in the config file` })
+           return
+       }
+
+       /** Everthing looks good resolve the reposory name */
+       resolve(repositoryConfig)
+   })
 }
 
 module.exports = Validate

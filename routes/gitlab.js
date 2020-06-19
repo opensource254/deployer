@@ -2,6 +2,7 @@ const express = require('express');
 const Router = express.Router();
 const Validate = require('../services/validate');
 const deploy = require('../services/deployment');
+const verifyHostName = require('../middleware/verifyHostName');
 
 /* GET home Route. */
 Router.get('/', function (_req, res) {
@@ -11,7 +12,7 @@ Router.get('/', function (_req, res) {
 });
 
 // Receive the webhook and handle it
-Router.post('/', async (req, res) => {
+Router.post('/',async (req, res) => {
   try {
     const Config = await Validate.gitlab(req.body)
     deploy(Config)

@@ -52,7 +52,7 @@ Sat, 13 Jun 2020 10:01:58 GMT Config: your-awesome-config, Error: /bin/sh: 1: ks
 - [x] Basic functionality
 - [x] Refactor
 - [ ] Webhook Security
-- [ ] Add Bitbucket support
+- [x] Add Bitbucket support
 - [ ] Web interface
 
 ## Contributing

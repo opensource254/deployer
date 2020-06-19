@@ -6,14 +6,14 @@ const deploy = require('../services/deployment');
 /* GET home Route. */
 Router.get('/', function (_req, res) {
   res.json({
-    'Message': 'Hurray! 🙌. Your Github Deployer is live'
+    'Message': 'Hurray! 🙌. Your Gitlab Deployer is live'
   })
 });
 
 // Receive the webhook and handle it
 Router.post('/', async (req, res) => {
   try {
-    const Config = await Validate.github(req.body)
+    const Config = await Validate.gitlab(req.body)
     deploy(Config)
     return res.status(201).json('')
   } catch (error) {

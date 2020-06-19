@@ -2,7 +2,6 @@ const express = require('express');
 const Router = express.Router();
 const Validate = require('../services/validate');
 const deploy = require('../services/deployment');
-const verifyHostName = require('../middleware/verifyHostName');
 
 /* GET home Route. */
 Router.get('/', function (_req, res) {

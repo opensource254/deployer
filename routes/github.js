@@ -2,19 +2,16 @@ const express = require('express');
 const Router = express.Router();
 const Validate = require('../services/validate');
 const deploy = require('../services/deployment');
+const successResponse = require('../middleware/successResponse');
 
-/* GET home Route. */
-Router.get('/', function (_req, res) {
-  res.json({
-    'Message': 'Hurray! 🙌. Your Github Deployer is live'
-  })
-});
+/* GET Github's index route */
+Router.get('/', successResponse('Github'))
 
-// Receive the webhook and handle it
+
+/**  Receive the Github's webhook and handle it*/
 Router.post('/', async (req, res) => {
   try {
-    const Config = await Validate.github(req)
-    deploy(Config)
+    deploy(await Validate.github(req))
     return res.status(201).json('')
   } catch (error) {
     res.status(error.status? error.status : 400).json(error.message)

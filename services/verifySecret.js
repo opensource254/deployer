@@ -4,11 +4,11 @@ const secret = process.env.SECRET
 
 /**
  * Verify Github's sceret
- * @param {*} payload_body 
+ * @param {*} payloadBody 
  * @param {*} signature 
  */
-const verifySecret = (payload_body = [], signature = '') => {
-    const buffer = Buffer.from(JSON.stringify(payload_body))
+const verifySecret = (payloadBody = [], signature = '') => {
+    const buffer = Buffer.from(JSON.stringify(payloadBody))
     const Hash = crypto.createHmac('sha1', secret).update(buffer)
 
     const payloadSignature = `sha1=${Hash.setEncoding('utf-8').digest('hex')}`

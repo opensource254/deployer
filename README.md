@@ -4,7 +4,7 @@
 
 ## Setup
 1. clone this repo and open a terminal in the repo
-2. Install dependencies `npm i` or `yarn i`
+2. Install dependencies `npm i` or `yarn`
 3. Create the deployments config `cp deployment.config.json.example deployment.config.json`
 4. Add your config and Start the server
 
@@ -39,9 +39,10 @@ The cron job above runs everyday at 12:30 AM in your server's local time.
 At this point, Your endpoint is ready for webhooks. It would be a great idea to run this behind a reverse proxy and give it a domain or a subdomain like. `mydomain.com` Then on the Github webhook settings,
 1. webhook url `https://mydomain.com/<provider>`
 2. Content Type `application/json`
-The provider can be any of this * github
-                                * gitlab
-                                * bitbucket
+The provider can be any of these 
+* github
+* gitlab
+* bitbucket
 
 ## Debugging
 Configuration erros are logged in the error.log file. This file is not version controlled.

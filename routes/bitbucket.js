@@ -1,20 +1,17 @@
 const Router = require('express').Router()
 const Validate = require('../services/validate')
 const deploy = require('../services/deployment')
+const successResponse = require('../middleware/successResponse')
 
-Router.get('/', (_req, res) => {
-    res.json({ 'Message': 'Hurray! 🙌. Your Bitbucket Deployer is live' })
-})
-
+Router.get('/', successResponse('Bitbucket'))
 /**
  * ----------------------------------
- * Handle the incoming webhook
+ * Handle the incoming bitbucket
  * ----------------------------------
  */
 Router.post('/', async (req, res) => {
     try {
-        const Config = await Validate.bitbucket(req.body)
-        deploy(Config)
+        deploy(await Validate.bitbucket(req.body))
         return res.status(201).json('')
     } catch (error) {
         res.status(400).json(error.message)

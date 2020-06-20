@@ -13,11 +13,11 @@ Router.get('/', function (_req, res) {
 // Receive the webhook and handle it
 Router.post('/', async (req, res) => {
   try {
-    const Config = await Validate.github(req.body)
+    const Config = await Validate.github(req)
     deploy(Config)
     return res.status(201).json('')
   } catch (error) {
-    res.status(400).json(error.message)
+    res.status(error.status? error.status : 400).json(error.message)
     return
   }
 })

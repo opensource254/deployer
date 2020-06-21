@@ -2,23 +2,18 @@ const express = require('express');
 const Router = express.Router();
 const Validate = require('../services/validate');
 const deploy = require('../services/deployment');
+const successResponse = require('../middleware/successResponse');
 
-/* GET home Route. */
-Router.get('/', function (_req, res) {
-  res.json({
-    'Message': 'Hurray! 🙌. Your Gitlab Deployer is live'
-  })
-});
+/* GET Gitlab's index route */
+Router.get('/', successResponse('Gitlab'));
 
-// Receive the webhook and handle it
-Router.post('/',async (req, res) => {
+/**Handle the POST request for gitlab */
+Router.post('/', async (req, res) => {
   try {
-    const Config = await Validate.gitlab(req.body)
-    deploy(Config)
+    deploy(await Validate.gitlab(req.body))
     return res.status(201).json('')
   } catch (error) {
-    res.status(400).json(error.message)
-    return
+    return res.status(error.status ? error.status : 400).json(error.message)
   }
 })
 

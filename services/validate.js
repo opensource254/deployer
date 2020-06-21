@@ -1,4 +1,5 @@
 const fs = require('fs')
+const verifySecret = require('./verifySecret')
 
 /**
  * ------------------------------------
@@ -53,16 +54,26 @@ class Validate {
 
     /**
      * Validate the github's payload
-     * @param {Array} body 
+     * @param {Array} payload 
      */
-    static github = (body = []) => new Promise((resolve, reject) => {
+    static github = (payload = []) => new Promise((resolve, reject) => {
         /** Ensure the request body has a repository field */
-        if (!this.#validateBody(body)) {
+        if (!this.#validateBody(payload.body)) {
             return reject({ message: "Invalid Payload" })
         }
 
+        /**Validate the X-hub signature */
+        const headers = Object.entries(payload.headers)
+        const xHubHeader = headers.filter((header) => {
+            return header[0] === 'x-hub-signature'
+        })
+        const xhubSignature = xHubHeader[0]
+        if (!verifySecret(payload.body, xhubSignature[1])) {
+            return reject({status: 403, message: 'Invalid Secret' })
+        }
+
         /** It is safe to decalre this variable because the param exists */
-        const repositoryName = body.repository.name
+        const repositoryName = payload.body.repository.name
 
 
         /** Get the config from the config file */

@@ -44,6 +44,15 @@ The provider can be any of these
 * gitlab
 * bitbucket
 
+## Security
+* Currently only the Github security is supported. 
+* All the repos/webhooks SHOULD use on key provided in the .env
+```env
+SECRET=<your-secret>
+```
+Add this secret to your webhook secret too.
+* If a security check fails, the endpoint will respond with error 403
+
 ## Debugging
 Configuration erros are logged in the error.log file. This file is not version controlled.
 ```log
@@ -55,8 +64,9 @@ Sat, 13 Jun 2020 10:01:58 GMT Config: your-awesome-config, Error: /bin/sh: 1: ks
 ## TODO
 - [x] Basic functionality
 - [x] Refactor
-- [ ] Webhook Security
+- [x] Webhook Security
 - [ ] Web interface
+- [ ] Notifications
 
 ## Contributing
 Please visit our [guidelines](https://opensource254.github.io/guidelines)

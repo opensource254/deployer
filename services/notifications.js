@@ -101,8 +101,10 @@ class NotificationService {
      */
     sendSlackWebhook(url = '') {
         const fullURL = new URL(url)
-        const payload = Buffer.from(JSON.stringify({ text: this.notificationData }))
-        console.log(payload)
+        const payload = Buffer.from(JSON.stringify({
+            text: this.notificationData,
+            mrkdwn: true
+        }))
         const request = https.request({
             host: fullURL.host,
             path: fullURL.pathname,
@@ -111,12 +113,9 @@ class NotificationService {
             protocol: 'https:'
         }, (res) => {
             res.setEncoding('utf-8');
-            res.on('data', (resData) => {
-                console.log(resData);
-            });
         })
         request.on('error', (err) => {
-            console.log(err)
+            throw err
         })
         request.write(payload)
         request.end()

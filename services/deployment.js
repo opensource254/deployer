@@ -1,7 +1,6 @@
 const fs = require('fs')
 const { exec } = require('child_process')
 const NotificationService = require('./notifications')
-const { config } = require('process')
 
 /**
  * Handle deployment
@@ -11,19 +10,37 @@ const deployment = (Config = []) => {
     exec(`${Config.command}`, (_err, stdout, stderr) => {
         /**The output logged during the command excecution */
         if (stdout) {
-            const outPutString = (`
+            const slack = (`
             *Deployment for _${Config.name}_ was successful 😃* \n*Output*: \`\`\`${stdout.trim()}\`\`\`
             `)
-            new NotificationService(outPutString, 'success').sendNotifications()
+
+            const mail = {
+                subject: `Deployment for ${Config.name} was successfull ✅`,
+                data: (`
+            <h3>Deployment for <i>${Config.name}</i> was successful 😃</h3> <br/>
+            <b>Output:</b> <code color="green">${stdout.trim()}</code>
+            `)
+            }
+            new NotificationService({ slack, mail }, 'success').sendNotifications()
         }
         /** If an error occoured */
         if (stderr) {
-            const notificationString = (`
+            const slack = (`
                 *Deployment for * _${Config.name}_ failed 😢 \n*Date* \`${new Date().toUTCString()}\` \n*The following error was logged:* \`\`\`${stderr.trim()}\`\`\`
             `)
 
+            const mail = {
+                subject: `Deployment for ${Config.name} failed ❌`,
+                data: (`
+            <h3>Deployment for ${Config.name} failed 😢 </h3>
+            <br/>
+            <b>Date</b> <date>${new Date().toUTCString()}</date> <br/>
+            <b>The following error was logged:</b> <code color="red">${stderr.trim()}</code>
+            `)
+            }
+
             /** Send error notification */
-            new NotificationService(notificationString, 'error').sendNotifications()
+            new NotificationService({ slack, mail }, 'error').sendNotifications()
 
             /**
              * Write error log

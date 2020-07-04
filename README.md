@@ -53,6 +53,40 @@ SECRET=<your-secret>
 Add this secret to your webhook secret too.
 * If a security check fails, the endpoint will respond with error 403
 
+## Notifications
+Two notifications channels are currently supported.
+* Email (The current supported protocal is SMTP)
+* Slack
+Turning notifications on
+```env
+ALLOW_NOTIFICATIONS=true
+// Notify on successful deployment
+SUCCESS_NOTIFICATIONS=false
+// Notify on failures/warnings
+ERROR_NOTIFICATIONS=false
+```
+
+### Email Configuration
+Add the config details in the .env file.
+example
+```env
+SMTP_HOST=smtp.mailtrap.io
+SMTP_PORT=2525
+SMTP_USERNAME=
+SMTP_PASSWORD=
+
+// The email to send notifications to
+NOTIFICATION_EMAIL=
+// The from address that will be shown in the email
+NOTIFICATION_FROM=
+```
+### Slack Configuration
+Slack config is as simple as adding the webhook config.
+Create a Slack app and add the webhook url for the app to `.env` like below
+```env
+SLACK_WEBHOOK_URL=
+```
+
 ## Debugging
 Configuration erros are logged in the error.log file. This file is not version controlled.
 ```log
@@ -65,8 +99,8 @@ Sat, 13 Jun 2020 10:01:58 GMT Config: your-awesome-config, Error: /bin/sh: 1: ks
 - [x] Basic functionality
 - [x] Refactor
 - [x] Webhook Security
+- [x] Notifications
 - [ ] Web interface
-- [ ] Notifications
 
 ## Contributing
 Please visit our [guidelines](https://opensource254.github.io/guidelines)

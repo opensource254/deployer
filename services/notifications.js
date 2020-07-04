@@ -61,6 +61,16 @@ class NotificationService {
      * @returns void
      */
     sendNotifications() {
+        if (!this.notificationEnabled) {
+            console.log(this.notificationEnabled);
+            return
+        }
+        if (this.notificationType === 'success' && this.notifyOnSuccess === 'false') {
+            return
+        }
+        if (this.notificationType === 'error' && this.notifyOnError == 'false') {
+            return
+        }
         const services = this.getSupportedServices()
         services.forEach((service) => {
             switch (service.name) {

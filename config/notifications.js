@@ -6,7 +6,7 @@
  */
 const notificationConfig = {
     /**This is used to determine if notifications are enabled */
-    allowNotifications: process.env.ALLOW_NOTIFCATIONS || true,
+    allowNotifications: process.env.ALLOW_NOTIFICATIONS || false,
 
 
     /** 

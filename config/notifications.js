@@ -25,6 +25,12 @@ const notificationConfig = {
      * */
     notificationEmail: process.env.NOTIFICATION_EMAIL,
 
+    /**
+     * Notification from email
+     * The From adress that will be shown in the email
+     */
+    notificationFrom: process.env.NOTIFICATION_FROM,
+
 
     /**
      * Get notifications on errors that occour 

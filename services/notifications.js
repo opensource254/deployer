@@ -7,6 +7,7 @@
 const config = require('../config/notifications')
 const https = require('https')
 const queryString = require('querystring')
+const transport = require('./mail')
 
 class NotificationService {
     /**
@@ -67,7 +68,9 @@ class NotificationService {
                 case 'Slack':
                     this.sendSlackWebhook(service.value)
                     break;
-
+                case 'email':
+                    this.sendEmails()
+                    break;
                 default:
                     break;
             }
@@ -127,6 +130,12 @@ class NotificationService {
      * @returns Boolean
      */
     sendEmails(emails = '') {
+        transport.sendMail({
+            from: config.notificationFrom,
+            to: config.notificationEmail,
+            subject: "Deployment results",
+            html: this.notificationData,
+        });
         return true
     }
 }

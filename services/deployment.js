@@ -11,7 +11,6 @@ const deployment = (Config = []) => {
     exec(`${Config.command}`, (_err, stdout, stderr) => {
         /**The output logged during the command excecution */
         if (stdout) {
-            // TODO Make this available to the user
             const outPutString = (`
             *Deployment for _${Config.name}_ was successful 😃* \n*Output*: \`\`\`${stdout.trim()}\`\`\`
             `)

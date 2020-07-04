@@ -6,7 +6,6 @@
  */
 const config = require('../config/notifications')
 const https = require('https')
-const queryString = require('querystring')
 const transport = require('./mail')
 
 class NotificationService {
@@ -43,10 +42,10 @@ class NotificationService {
 
     /**
      * initialise the service
-     * @param {*} data 
-     * @param {*} type 
+     * @param {Array} data 
+     * @param {String} type 
      */
-    constructor(data, type) {
+    constructor(data = {}, type = '') {
         this.notificationEnabled = config.allowNotifications
         this.slackURL = config.slackWebhookURL
         this.notifyOnError = config.notifyOnErrors
@@ -63,7 +62,7 @@ class NotificationService {
      */
     sendNotifications() {
         const services = this.getSupportedServices()
-        services.forEach((service, index) => {
+        services.forEach((service) => {
             switch (service.name) {
                 case 'Slack':
                     this.sendSlackWebhook(service.value)
@@ -105,7 +104,7 @@ class NotificationService {
     sendSlackWebhook(url = '') {
         const fullURL = new URL(url)
         const payload = Buffer.from(JSON.stringify({
-            text: this.notificationData,
+            text: this.notificationData.slack,
             mrkdwn: true
         }))
         const request = https.request({
@@ -129,12 +128,12 @@ class NotificationService {
      * @param {String} emails 
      * @returns Boolean
      */
-    sendEmails(emails = '') {
+    sendEmails() {
         transport.sendMail({
             from: config.notificationFrom,
             to: config.notificationEmail,
-            subject: "Deployment results",
-            html: this.notificationData,
+            subject: this.notificationData.mail.subject,
+            html: this.notificationData.mail.data,
         });
         return true
     }

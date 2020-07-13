@@ -11,8 +11,11 @@
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
+    "knex": "^0.21.2",
     "morgan": "~1.9.1",
-    "nodemailer": "^6.4.10"
+    "mysql": "^2.18.1",
+    "nodemailer": "^6.4.10",
+    "pluralize": "^8.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"

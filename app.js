@@ -12,11 +12,13 @@ const app = express();
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-// TODO This middleware does not work correctly app.use(verifyHostName())
 
 app.use('/github', githubRouter)
 app.use('/bitbucket', bitbucketRouter)
 app.use('/gitlab', gitlabRouter)
-app.all('*', web)
+app.use('/api', web)
+app.all('*', (req, res) => {
+    res.status(404).json({ type: 'Error', message: `Sorry ${req.method} ${req.path} is not available` })
+})
 
 module.exports = app;

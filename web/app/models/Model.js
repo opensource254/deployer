@@ -5,7 +5,7 @@ class Model {
     /** The table for the current table */
     table
     /** The limit of the records to return */
-    static limit = 15
+    limit = 15
 
     /**
      * 
@@ -20,15 +20,15 @@ class Model {
      * 
      * @returns String
      */
-    static tableName() {
-        return plurarize(this.name.toLowerCase())
+    tableName() {
+        return plurarize(this.constructor.name.toLowerCase())
     }
 
     /**
      * Returns all records of the current model
      * @returns Promise
      */
-    static all() {
+    all() {
         try {
             return queryBuilder(this.tableName()).select('*').limit(this.limit)
         } catch (error) {
@@ -40,13 +40,41 @@ class Model {
      * Get the first record
      * @returns Promise
      */
-    static first() {
+    first() {
         try {
             return queryBuilder(this.tableName()).select('*').first()
         } catch (error) {
             return error
         }
     }
+
+
+    /**
+     * Find a model by database ID
+     * @param {Number} id
+     * @returns Object
+     */
+    find(id = 1) {
+        try {
+            return queryBuilder(this.tableName()).where('id', id).select('*').first()
+        } catch (error) {
+            return error
+        }
+    }
+
+    /**
+     * Query using a condition
+     * @param {Array} conditions
+     * @returns Object
+     */
+    whereFirst(conditions = {}) {
+        try {
+            return queryBuilder(this.tableName()).where(conditions).select('*').first()
+        } catch (error) {
+            return error
+        }
+    }
+
 }
 
 module.exports = Model

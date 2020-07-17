@@ -62,3 +62,7 @@ typings/
 
 # Deployment config
 deployment.config.json
+
+# SQLITE
+*.sqlite
+*.sqlite3

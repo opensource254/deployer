@@ -26,16 +26,16 @@ const deployment = (Config = []) => {
         /** If an error occoured */
         if (stderr) {
             const slack = (`
-                *Deployment for * _${Config.name}_ failed 😢 \n*Date* \`${new Date().toUTCString()}\` \n*The following error was logged:* \`\`\`${stderr.trim()}\`\`\`
+                *Deployment for on* _${Config.name}_  \n*Date* \`${new Date().toUTCString()}\` \n*Was Completed with the following warnings logged.:* \`\`\`${stderr.trim()}\`\`\`
             `)
 
             const mail = {
-                subject: `Deployment for ${Config.name} failed ❌`,
+                subject: `Deployment for ${Config.name} Complete  with warnings ❌`,
                 data: (`
-            <h3>Deployment for ${Config.name} failed 😢 </h3>
+            <h3>Deployment for ${Config.name} is complete </h3>
             <br/>
             <b>Date</b> <date>${new Date().toUTCString()}</date> <br/>
-            <b>The following error was logged:</b> <code color="red">${stderr.trim()}</code>
+            <b>The following warning was logged:</b> <code color="red">${stderr.trim()}</code>
             `)
             }
 

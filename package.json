@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "DEBUG=deployer:* nodemon ./bin/www",
-    "test:web": "mocha --exit",
+    "test": "mocha --exit",
     "migrate": "NODE_ENV=production knex migrate:latest"
   },
   "dependencies": {

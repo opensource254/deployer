@@ -12,19 +12,19 @@ describe('Web API test', function () {
                 return done(err)
             }
 
-        })).then(res => {
+        })).then((res) => {
             assert.equal(res.status, 200)
             return done()
-        }).catch(err => {
+        }).catch((err) => {
             return done(err)
         })
     })
 
     it('Should POST /api/login', function (done) {
-        http.request(web).post('/api/login', {}).then(res => {
+        http.request(web).post('/api/login', {}).then((res) => {
             assert.equal(422, res.status)
             return done()
-        }).catch(err => {
+        }).catch((err) => {
             done(err)
         })
     })

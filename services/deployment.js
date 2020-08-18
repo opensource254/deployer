@@ -4,11 +4,11 @@ const NotificationService = require('./notifications')
 
 /**
  * Handle deployment
- * @param {Array} Config 
+ * @param {Array} Config
  */
 const deployment = (Config = []) => {
     exec(`${Config.command}`, (_err, stdout, stderr) => {
-        /**The output logged during the command excecution */
+        /** The output logged during the command excecution */
         if (stdout) {
             const slack = (`
             *Deployment for _${Config.name}_ was successful 😃* \n*Output*: \`\`\`${stdout.trim()}\`\`\`
@@ -47,11 +47,10 @@ const deployment = (Config = []) => {
              */
             fs.writeFileSync('error.log', `${new Date().toUTCString()}, Config: ${Config.name}, Error: ${stderr.trim()}`, {
                 encoding: 'utf-8',
-                flag: 'a',
+                flag: 'a'
             })
         }
     })
 }
-
 
 module.exports = deployment

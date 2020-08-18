@@ -1,24 +1,24 @@
 const User = require('../models/User')
-const Auth = require('../../services/auth')
-class AuthController {
+// const Auth = require('../../services/auth')
 
+class AuthController {
     /**
      * Authenticate and start a session
-     * @param {Array} credentials 
+     * @param {Array} credentials
      */
-    async login(credentials = []) {
-        return new Promise((resolve, reject) => {
+    async login (credentials = []) {
+        return new Promise((resolve) => {
             const user = User.whereFirst(credentials)
 
             resolve(user)
         })
     }
 
-    logout() {
+    logout () {
 
     }
 
-    register(credentials = []) {
+    register (credentials = []) {
         try {
             return User.create(credentials)
         } catch (error) {
@@ -27,4 +27,4 @@ class AuthController {
     }
 }
 
-module.exports = new AuthController
+module.exports = new AuthController()

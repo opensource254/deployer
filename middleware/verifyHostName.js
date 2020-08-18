@@ -1,8 +1,8 @@
 /**
  * The hosts allowed to access the current route
- * @param {Array} allowedHosts 
+ * @param {Array} allowedHosts
  */
-module.exports = function verifyhostName(allowedHosts = []) {
+module.exports = function verifyhostName (allowedHosts = []) {
     if (allowedHosts.length === 0) {
         allowedHosts = process.env.ALLOWED_HOSTS.split(',')
     }

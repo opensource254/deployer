@@ -1,4 +1,4 @@
-const Users = require('../models/User')
+const User = require('../models/User')
 const Auth = require('../../services/auth')
 class AuthController {
 
@@ -8,7 +8,7 @@ class AuthController {
      */
     async login(credentials = []) {
         return new Promise((resolve, reject) => {
-            const user = Users.whereFirst(credentials)
+            const user = User.whereFirst(credentials)
 
             resolve(user)
         })
@@ -16,6 +16,14 @@ class AuthController {
 
     logout() {
 
+    }
+
+    register(credentials = []) {
+        try {
+            return User.create(credentials)
+        } catch (error) {
+            return { status: 500, message: error }
+        }
     }
 }
 

@@ -1,11 +1,5 @@
-const knex = require('knex')({
-    client: process.env.DATABASE_CLIENT || 'sqlite3',
-    connection: {
-        host: process.env.DATABASE_HOST || 'localhost',
-        user: process.env.DATABASE_USER || 'deployer',
-        password: process.env.DATABASE_PASSWORD || '',
-        database: process.env.DATABASE_NAME || 'deployer'
-    }
-})
+const { development, production } = require('../../../knexfile')
+
+const knex = require('knex')(process.env.NODE_ENV === 'development' ? development : production)
 
 module.exports = knex

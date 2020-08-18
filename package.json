@@ -5,8 +5,9 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "DEBUG=deployer:* nodemon ./bin/www",
-    "test": "mocha --exit",
-    "migrate": "NODE_ENV=production knex migrate:latest"
+    "test": "NODE_ENV=development mocha --exit",
+    "migrate:prod": "NODE_ENV=production knex migrate:latest",
+    "migrate:dev": "NODE_ENV=development knex migrate:latest"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

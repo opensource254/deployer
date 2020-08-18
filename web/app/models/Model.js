@@ -37,6 +37,19 @@ class Model {
     }
 
     /**
+     * Create a new Model
+     * @param {Array} attributes 
+     */
+    async create(attributes = []) {
+        try {
+            await queryBuilder.table(this.tableName()).insert(attributes)
+        } catch (error) {
+            console.log(error);
+            return { status: 500, message: error }
+        }
+    }
+
+    /**
      * Get the first record
      * @returns Promise
      */

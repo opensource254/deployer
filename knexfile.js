@@ -6,7 +6,8 @@ module.exports = {
     client: 'sqlite3',
     connection: {
       filename: './dev.sqlite3'
-    }
+    },
+    useNullAsDefault: true
   },
 
   staging: {
@@ -26,11 +27,11 @@ module.exports = {
   },
 
   production: {
-    client: process.env.DATABASE_CLIENT,
+    client: process.env.DATABASE_CLIENT || 'mysql',
     connection: {
-      database: process.env.DATABASE_NAME,
-      user: process.env.DATABASE_USER,
-      password: process.env.DATABASE_PASSWORD
+      database: process.env.DATABASE_NAME || 'deployer',
+      user: process.env.DATABASE_USER || 'deployer',
+      password: process.env.DATABASE_PASSWORD || 'secret'
     },
     pool: {
       min: 2,

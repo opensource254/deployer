@@ -1,5 +1,3 @@
-const { table } = require('../web/app/models/database')
-
 /** @var knex = require('knex')() */
 exports.up = function (knex) {
     return knex.schema.createTable('users', (table) => {

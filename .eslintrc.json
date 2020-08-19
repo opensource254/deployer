@@ -11,6 +11,7 @@
     },
     "rules": {
         "no-mixed-spaces-and-tabs": 0,
+        "no-console": 2,
         "indent": [
             "error",
             4

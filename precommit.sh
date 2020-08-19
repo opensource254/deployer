@@ -1,13 +1,17 @@
 #!/bin/env bash
 ## PRECOMMIT SCRIPT
-user=$(whoami)
-# TODO Finish this script
+# Error Handling
+set -e
 
+user=$(whoami)
 # remove the sqlite database
 rm dev.sqlite3
 
 # Make new migrations
 npm run migrate:dev
+
+#Lint 
+npm run lint -- --fix
 # Run the Tests
 npm cit
 

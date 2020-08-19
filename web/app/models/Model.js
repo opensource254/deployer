@@ -42,7 +42,6 @@ class Model {
     	try {
     		await queryBuilder.table(this.tableName()).insert(attributes)
     	} catch (error) {
-    		console.log(error)
     		return { status: 500, message: error }
     	}
     }

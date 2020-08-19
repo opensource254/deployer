@@ -13,8 +13,9 @@ Route.get('/', async (_req, res) => {
 Route.post('/login', async (req, res) => {
     try {
         await new Validator(req.body, { email: 'required|email', password: 'string' }).validate()
-        req.session.user = await AuthController.login(req.body)
-        res.json(req.session.user)
+        const { message, status } = await AuthController.attempt(req.body)
+        req.session.user = message
+        res.status(status).json(message)
     } catch (error) {
         res.status(422).json(error)
     }
@@ -23,10 +24,10 @@ Route.post('/login', async (req, res) => {
 /** Register a new user */
 Route.post('/register', async (req, res) => {
     try {
-        await new Validator(req.body, { email: 'required', password: 'required|min:8' }).validate()
-        return res.json(await AuthController.register(req.body))
+        const { status, message } = await AuthController.register(req.body)
+        return res.status(status).json(message)
     } catch (error) {
-        res.status(422).json(error)
+        res.status(error.status).json(error)
     }
 })
 

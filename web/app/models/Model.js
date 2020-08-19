@@ -9,8 +9,8 @@ class Model {
      *
      * @param {String} table
      */
-    constructor (table = '') {
-    	this.table = table
+    constructor(table = '') {
+        this.table = table
     }
 
     /**
@@ -18,44 +18,45 @@ class Model {
      *
      * @return String
      */
-    tableName () {
-    	return plurarize(this.constructor.name.toLowerCase())
+    tableName() {
+        return plurarize(this.constructor.name.toLowerCase())
     }
 
     /**
      * Returns all records of the current model
      * @return Promise
      */
-    all () {
-    	try {
-    		return queryBuilder(this.tableName()).select('*').limit(this.limit)
-    	} catch (error) {
-    		return error
-    	}
+    all() {
+        try {
+            return queryBuilder(this.tableName()).select('*').limit(this.limit)
+        } catch (error) {
+            return error
+        }
     }
 
     /**
      * Create a new Model
      * @param {Array} attributes
      */
-    async create (attributes = []) {
-    	try {
-    		await queryBuilder.table(this.tableName()).insert(attributes)
-    	} catch (error) {
-    		return { status: 500, message: error }
-    	}
+    async create(attributes = []) {
+        try {
+            const res = await queryBuilder.table(this.tableName()).insert(attributes)
+            return { status: 200, message: res }
+        } catch (error) {
+            return { status: 500, message: error }
+        }
     }
 
     /**
      * Get the first record
      * @return Promise
      */
-    first () {
-    	try {
-    		return queryBuilder(this.tableName()).select('*').first()
-    	} catch (error) {
-    		return error
-    	}
+    first() {
+        try {
+            return queryBuilder(this.tableName()).select('*').first()
+        } catch (error) {
+            return error
+        }
     }
 
     /**
@@ -63,12 +64,12 @@ class Model {
      * @param {Number} id
      * @return Object
      */
-    find (id = 1) {
-    	try {
-    		return queryBuilder(this.tableName()).where('id', id).select('*').first()
-    	} catch (error) {
-    		return error
-    	}
+    find(id = 1) {
+        try {
+            return queryBuilder(this.tableName()).where('id', id).select('*').first()
+        } catch (error) {
+            return error
+        }
     }
 
     /**
@@ -76,12 +77,12 @@ class Model {
      * @param {Array} conditions
      * @return Object
      */
-    whereFirst (conditions = {}) {
-    	try {
-    		return queryBuilder(this.tableName()).where(conditions).select('*').first()
-    	} catch (error) {
-    		return error
-    	}
+    async whereFirst(conditions = {}) {
+        try {
+            return await queryBuilder(this.tableName()).where(conditions).select('*').first()
+        } catch (error) {
+            return error
+        }
     }
 }
 

@@ -1,5 +1,5 @@
 const express = require('express')
-const AuthController = require('../app/controllers/authController')
+const AuthController = require('../app/controllers/AuthController')
 
 const Route = express.Router()
 const Validator = require('mevn-validator')

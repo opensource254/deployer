@@ -1,6 +1,6 @@
 const Validator = require('mevn-validator')
 const User = require('../models/User')
-const Controller = require('./controller')
+const Controller = require('./Controller')
 const { compareSync } = require('bcrypt')
 
 class AuthController extends Controller {

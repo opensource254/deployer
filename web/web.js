@@ -5,6 +5,8 @@ const cookieSession = require('cookie-session')
 const logger = require('morgan')
 
 const apiRouter = require('./routes/index')
+//const configRouter = require('./routes/config')
+// TODO add this middleware
 
 const web = express()
 
@@ -20,5 +22,6 @@ web.use(cookieSession({ name: 'deployer_session', keys: ['mysupersecret'], expir
 web.use(express.static(path.join(__dirname, 'public')))
 
 web.use('/', apiRouter)
+//web.use('/config', configRouter)
 
 module.exports = web

@@ -12,7 +12,11 @@ web.use(logger('dev'))
 web.use(express.json())
 web.use(express.urlencoded({ extended: false }))
 web.use(cookieParser())
-web.use(cookieSession({ name: 'deployer', keys: ['mysupersecret'] }))
+/** */
+const nextYear = new Date().getFullYear() + 1
+const exp = new Date().setFullYear(nextYear)
+/** */
+web.use(cookieSession({ name: 'deployer_session', keys: ['mysupersecret'], expires: new Date(exp) }))
 web.use(express.static(path.join(__dirname, 'public')))
 
 web.use('/', apiRouter)

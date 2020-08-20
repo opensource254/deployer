@@ -22,7 +22,7 @@ class AuthController extends Controller {
      * @param {Object} credentials 
      */
     async attempt(credentials = []) {
-        await new Validator(credentials, { email: 'required|email', password: 'string' }).validate()
+        await new Validator(credentials, { email: 'required|email', password: 'required' }).validate()
         const u = await User.whereFirst({ 'email': credentials.email })
         if (u) {
             const { password } = u

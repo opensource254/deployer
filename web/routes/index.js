@@ -16,7 +16,9 @@ Route.post('/login', guest, async (req, res) => {
     try {
         await new Validator(req.body, { email: 'required|email', password: 'string' }).validate()
         const { message, status } = await AuthController.attempt(req.body)
-        req.session.user = message
+        if (status === 200) {
+            req.session.user = message
+        }
         res.status(status).json(message)
     } catch (error) {
         res.status(422).json(error)

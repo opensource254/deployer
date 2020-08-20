@@ -1,6 +1,7 @@
 const Validator = require('mevn-validator')
 const User = require('../models/User')
 const Controller = require('./controller')
+const { compareSync } = require('bcrypt')
 
 class AuthController extends Controller {
     /**
@@ -22,10 +23,12 @@ class AuthController extends Controller {
      */
     async attempt(credentials = []) {
         await new Validator(credentials, { email: 'required|email', password: 'string' }).validate()
-        const u = await User.whereFirst(credentials)
+        const u = await User.whereFirst({ 'email': credentials.email })
         if (u) {
-            // Logged in
-            return this.response(u, 200)
+            const { password } = u
+            if (compareSync(credentials.password, password)) {
+                return this.response(u, 200)
+            }
         }
         return this.response('These credentials do not match our records', 401)
     }
@@ -58,7 +61,7 @@ class AuthController extends Controller {
                     }
                 }, 422)
             }
-            const { message, status } = await User.create(credentials)
+            const { message, status } = await User.register(credentials)
             // TODO Login this user
             return this.response(message, status)
         } catch (error) {

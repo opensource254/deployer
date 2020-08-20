@@ -11,7 +11,7 @@ class AuthController extends Controller {
     async login(id = 0) {
         const u = await User.whereFirst({ id })
         if (u) {
-            // TODO Implement the login fuctionality
+            return this.response(u, 200)
         }
         return this.response('The specified user was not found', 401)
     }
@@ -31,13 +31,6 @@ class AuthController extends Controller {
             }
         }
         return this.response('These credentials do not match our records', 401)
-    }
-
-    /**
-     * End a users session
-     */
-    logout() {
-        // TODO implement logout
     }
 
     /**
@@ -62,7 +55,9 @@ class AuthController extends Controller {
                 }, 422)
             }
             const { message, status } = await User.register(credentials)
-            // TODO Login this user
+            if (status === 200) {
+                return this.login(message)
+            }
             return this.response(message, status)
         } catch (error) {
             return this.response(error, 500)

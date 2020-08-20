@@ -42,14 +42,13 @@ class AuthController extends Controller {
      * @param {Array} credentials 
      */
     async register(credentials = []) {
-        // Validate Input
-        // The validator returns 200 on empty let us catch that here
-        if (Object.keys(credentials).length < 1) {
-            return this.response('Nothing to validate', 422)
-        }
         try {
             // Validate the input
-            await new Validator(credentials, { email: 'required|email', password: 'required' }).validate()
+            await new Validator(credentials, { email: 'required|email', password: 'required|min:8' }).validate()
+        } catch (error) {
+            return this.response(error, 422)
+        }
+        try {
             // Check if email exists
             const exists = await User.whereFirst({ 'email': credentials['email'] })
             if (exists) {
@@ -63,7 +62,7 @@ class AuthController extends Controller {
             // TODO Login this user
             return this.response(message, status)
         } catch (error) {
-            return this.response(error, 200)
+            return this.response(error, 500)
         }
     }
 }

@@ -6,3 +6,4 @@ SECURITY.md export-ignore
 test export-ignore
 test.sh export-ignore
 precommit.sh export-ignore
+docs export-ignore

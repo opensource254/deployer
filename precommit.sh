@@ -10,6 +10,9 @@ rm dev.sqlite3
 # Make new migrations
 npm run migrate:dev
 
+# Run seeds
+npm run seed:dev
+
 #Lint 
 npm run lint -- --fix
 # Run the Tests

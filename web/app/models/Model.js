@@ -4,6 +4,7 @@ const plurarize = require('pluralize')
 class Model {
     /** The table for the current table */
     table
+    limit = 15
 
     /**
      *
@@ -26,9 +27,9 @@ class Model {
      * Returns all records of the current model
      * @return Promise
      */
-    all() {
+    async all() {
         try {
-            return queryBuilder(this.tableName()).select('*').limit(this.limit)
+            return await queryBuilder(this.tableName()).select('*')
         } catch (error) {
             return error
         }

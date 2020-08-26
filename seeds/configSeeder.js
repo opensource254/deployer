@@ -6,8 +6,8 @@ exports.seed = function (knex) {
         { name: 'First-Application', description: 'Awesome config', command: 'ls -la' },
         { name: 'Second-Application', description: 'Awesome config', command: 'ls -la' },
         { name: 'Third-Application', description: 'Awesome config', command: 'ls -la' },
-        { name: 'Fourth-Application', description: 'Awesome config', command: 'ls -la' },
-        { name: 'Fifth-Application', description: 'Awesome config', command: 'ls -la' },
+        { name: 'deployer', description: 'Awesome config', command: 'ls -la' },
+        { name: 'client-web-app', description: 'Awesome config', command: 'ls -la' },
       ]);
     });
 };

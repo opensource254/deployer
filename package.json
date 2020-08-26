@@ -9,7 +9,8 @@
     "lint": "eslint --ext .js --ignore-path .gitignore test/ config/ middleware/ routes/ services/  web/ app.js",
     "migrate:prod": "NODE_ENV=production knex migrate:latest",
     "migrate:dev": "NODE_ENV=development knex migrate:latest",
-    "seed:dev": "NODE_ENV=development knex seed:run"
+    "seed:dev": "NODE_ENV=development knex seed:run",
+    "seed:prod": "NODE_ENV=production knex seed:run"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",

@@ -49,6 +49,29 @@ class Model {
     }
 
     /**
+     * Update a model in the database
+     * @param {Array} attributes 
+     * @param {Number} id 
+     */
+    async update(attributes = [], id) {
+        try {
+            const res = await queryBuilder.table(this.tableName()).where({ id }).update(attributes)
+            return { status: 200, message: res }
+        } catch (error) {
+            return { status: 500, message: error }
+        }
+    }
+
+    async delete(id) {
+        try {
+            const res = await queryBuilder.table(this.tableName()).where({ id }).delete()
+            return { status: 200, message: res }
+        } catch (error) {
+            return { status: 500, message: error }
+        }
+    }
+
+    /**
      * Get the first record
      * @return Promise
      */

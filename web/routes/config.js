@@ -1,27 +1,58 @@
 const ConfigController = require('../app/controllers/ConfigController')
 /* eslint no-unused-vars: "off" */
-const auth = require('../app/middleware/auth')()
+const auth = require('../app/middleware/auth')
 const Route = require('express').Router()
 
-/** Auth middleware */
-Route.use(auth)
 
 /**Get all routes */
-Route.get('/', (req, res) => {
-    ConfigController.index()
+Route.get('/', auth, async (req, res) => {
+    try {
+        const configs = await ConfigController.index()
+        res.status(configs.status).json(configs.message)
+    } catch (error) {
+        res.status(error.status).json(error.message)
+    }
+})
+
+/**Create a new config */
+Route.post('/create', auth, async (req, res) => {
+    try {
+        const cfg = await ConfigController.create(req.body)
+        res.status(cfg.status).json(cfg.message)
+    } catch (error) {
+        res.status(error.status || 422).json(error)
+    }
 })
 
 /**Get a specified config from the database */
-Route.get('/:config', (req, res) => {
-    ConfigController.show(req.params.config)
+Route.get('/:config', auth, async (req, res) => {
+    try {
+        const config = await ConfigController.show(req.params.config)
+        res.status(config.status).json(config.message)
+    } catch (error) {
+        res.status(error.message).json(error.message)
+    }
+
 })
 
 /**Update a config */
-Route.put('/:config', (req, res) => {
-    ConfigController.update(req.params.config, req.body)
+Route.put('/:config', auth, async (req, res) => {
+    try {
+        const config = await ConfigController.update(req.params.config, req.body)
+        res.status(config.status).json(config.message)
+    } catch (error) {
+        res.status(error.status || 422).json(error.message || error)
+    }
 })
 
 /**Delete a config */
-Route.delete('/:config', (req, res) => {
-    ConfigController.delete(req.params.config)
+Route.delete('/:config', auth, async (req, res) => {
+    try {
+        const config = await ConfigController.delete(req.params.config)
+        res.status(config.status).json(config.message)
+    } catch (error) {
+        res.status(error.status || 422).json(error.message || error)
+    }
 })
+
+module.exports = Route

@@ -1,4 +1,5 @@
 exports.up = function (knex) {
+    // TODO add slug
     return knex.schema.createTable('configs', (table) => {
         table.bigIncrements()
         table.string('name')

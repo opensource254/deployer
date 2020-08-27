@@ -3,6 +3,7 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const cookieSession = require('cookie-session')
 const logger = require('morgan')
+const cors = require('cors')
 
 const apiRouter = require('./routes/index')
 const configRouter = require('./routes/config')
@@ -13,6 +14,7 @@ web.use(logger('dev'))
 web.use(express.json())
 web.use(express.urlencoded({ extended: false }))
 web.use(cookieParser())
+web.use(cors({ origin: true, credentials: true }))
 /** */
 const nextYear = new Date().getFullYear() + 1
 const exp = new Date().setFullYear(nextYear)

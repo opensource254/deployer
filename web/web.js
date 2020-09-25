@@ -19,7 +19,7 @@ web.use(cors({ origin: true, credentials: true }))
 const nextYear = new Date().getFullYear() + 1
 const exp = new Date().setFullYear(nextYear)
 /** */
-web.use(cookieSession({ name: 'deployer_session', keys: ['mysupersecret'], expires: new Date(exp), sameSite: 'none', secure: true }))
+web.use(cookieSession({ name: 'deployer_session', keys: ['mysupersecret'], expires: new Date(exp), sameSite: 'lax', secure: false }))
 web.use(express.static(path.join(__dirname, 'public')))
 
 web.use('/', apiRouter)

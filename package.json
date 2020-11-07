@@ -12,10 +12,10 @@
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
     "morgan": "~1.9.1",
-    "nodemailer": "^6.4.10"
+    "nodemailer": "^6.4.15"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.6"
   },
   "description": "Deploy you apps in seconds using the webhook feature in your SVN",
   "main": "bin/www",

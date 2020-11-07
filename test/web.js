@@ -7,7 +7,15 @@ const web = require('../app')
 chai.use(chaiHttp)
 const http = chai.request(web).keepOpen()
 
+/**
+ * --------------------------------------------------------
+ * All the Web API tests are here
+ * 
+ */
 describe('Web API test', () => {
+    /**
+     * Ping the API to ensure it is working
+     */
     it('Should respond with a 200 status', (done) => {
         http.get('/api', (err) => {
             if (err) {
@@ -19,6 +27,10 @@ describe('Web API test', () => {
         }).catch((err) => done(err))
     })
 
+    /**
+     * Test the validation of login credentials
+     * 
+     */
     it('Login route validation', (done) => {
         http.post('/api/login')
             .then((res) => {
@@ -29,6 +41,10 @@ describe('Web API test', () => {
             })
     })
 
+    /**
+     * Test the validation of user registration
+     * 
+     */
     it('User registration validation', (done) => {
         http.post('/api/register').then((res) => {
             expect(res.status).equals(422)
@@ -38,6 +54,10 @@ describe('Web API test', () => {
         })
     })
 
+    /**
+     * Test the registration functionality
+     * 
+     */
     it('Should register a new user', (done) => {
         http.post('/api/register')
             .send(
@@ -55,6 +75,10 @@ describe('Web API test', () => {
     })
 })
 
+/**
+ * This is used to test the ability to CRUD configs
+ * 
+ */
 describe('Config API test', () => {
     it('Should return all configs', (done) => {
         http.get('/api/config')
@@ -66,6 +90,10 @@ describe('Config API test', () => {
             })
     })
 
+    /**
+     * Test the creation of a config
+     * 
+     */
     it('Should Create a config', (done) => {
         http.post('/api/config')
             .then((res) => {
@@ -76,6 +104,10 @@ describe('Config API test', () => {
             })
     })
 
+    /**
+     * Test the reading of a config
+     * 
+     */
     it('Should get a config by ID', (done) => {
         http.get('/api/config/1')
             .then((res) => {
@@ -86,6 +118,10 @@ describe('Config API test', () => {
             })
     })
 
+    /**
+     * Test the updating of a config
+     * 
+     */
     it('Should update a config', (done) => {
         http.put('/api/config/1')
             .then((res) => {
@@ -96,6 +132,10 @@ describe('Config API test', () => {
             })
     })
 
+    /**
+     * Test the deletion of a config
+     * 
+     */
     it('Should delete a config', (done) => {
         http.delete('/api/config/1')
             .then((res) => {

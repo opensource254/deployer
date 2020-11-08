@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "DEBUG=deployer:* nodemon ./bin/www",
-    "test": "NODE_ENV=development mocha --exit",
+    "test": "NODE_ENV=development mocha --recursive --check-leaks  --exit",
     "lint": "eslint --ext .js --ignore-path .gitignore test/ config/ middleware/ routes/ services/  web/ app.js",
     "migrate:prod": "NODE_ENV=production knex migrate:latest",
     "migrate:dev": "NODE_ENV=development knex migrate:latest",
@@ -32,11 +32,11 @@
     "babel-eslint": "^10.1.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "eslint": "^7.9.0",
-    "eslint-plugin-import": "^2.22.0",
+    "eslint": "^7.13.0",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "mocha": "^8.1.3",
+    "mocha": "^8.2.1",
     "nodemon": "^2.0.4"
   },
   "description": "Deploy you apps in seconds using the webhook feature in your SVN",

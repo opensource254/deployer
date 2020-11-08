@@ -99,7 +99,7 @@ describe('Config API test', () => {
         http.post('/api/config')
             .send(
                 {
-                    name: 'Test config', description: 'Awesome test config', command: 'ls -la'
+                    name: 'TestConfig', description: 'Awesome test config', command: 'ls -la'
                 }
             )
             .then((res) => {
@@ -132,7 +132,7 @@ describe('Config API test', () => {
         http.put('/api/config/1')
             .send(
                 {
-                    name: 'Updated Test config', description: 'Awesome test config', command: 'ls -la'
+                    name: 'UpdatedTestConfig', description: 'Awesome test config', command: 'ls -la'
                 }
             )
             .then((res) => {

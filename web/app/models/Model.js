@@ -55,13 +55,17 @@ class Model {
      */
     async update(attributes = [], id) {
         try {
-            const res = await queryBuilder.table(this.tableName()).where({ id }).update(attributes)
-            return { status: 200, message: res }
+            await queryBuilder.table(this.tableName()).where({ id }).update(attributes)
+            return { status: 200, message: await this.find(id) }
         } catch (error) {
             return { status: 500, message: error }
         }
     }
 
+    /**
+     * Delete a model from the database
+     * @param {Number} id 
+     */
     async delete(id) {
         try {
             const res = await queryBuilder.table(this.tableName()).where({ id }).delete()

@@ -112,7 +112,6 @@ class Validate {
 	        }
 	        return Promise.resolve(cfg)
 	    } catch (error) {
-
 	        return Promise.reject({ status: 500, message: error })
 	    }
 	}

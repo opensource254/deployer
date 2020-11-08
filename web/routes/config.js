@@ -15,7 +15,7 @@ Route.get('/', auth, async (req, res) => {
 })
 
 /**Create a new config */
-Route.post('/create', auth, async (req, res) => {
+Route.post('/', auth, async (req, res) => {
     try {
         const cfg = await ConfigController.create(req.body)
         res.status(cfg.status).json(cfg.message)

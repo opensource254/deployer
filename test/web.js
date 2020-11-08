@@ -5,7 +5,7 @@ const chai = require('chai')
 const chaiHttp = require('chai-http')
 const web = require('../app')
 chai.use(chaiHttp)
-const http = chai.request(web).keepOpen()
+const http = chai.request.agent(web)
 
 /**
  * --------------------------------------------------------
@@ -31,7 +31,7 @@ describe('Web API test', () => {
      * Test the validation of login credentials
      * 
      */
-    it('Login route validation', (done) => {
+    it('Login should return a 422 when no credentials are given', (done) => {
         http.post('/api/login')
             .then((res) => {
                 expect(res.status).equals(422)
@@ -45,7 +45,7 @@ describe('Web API test', () => {
      * Test the validation of user registration
      * 
      */
-    it('User registration validation', (done) => {
+    it('Register should return a 422 status when no credentials are present', (done) => {
         http.post('/api/register').then((res) => {
             expect(res.status).equals(422)
             return done()
@@ -93,11 +93,17 @@ describe('Config API test', () => {
     /**
      * Test the creation of a config
      * 
+     * Should return a 201 on a complete creation
      */
     it('Should Create a config', (done) => {
         http.post('/api/config')
+            .send(
+                {
+                    name: 'Test config', description: 'Awesome test config', command: 'ls -la'
+                }
+            )
             .then((res) => {
-                assert.ok(res)
+                expect(res.status).equals(201)
                 done()
             }).catch((err) => {
                 done(err)
@@ -111,7 +117,7 @@ describe('Config API test', () => {
     it('Should get a config by ID', (done) => {
         http.get('/api/config/1')
             .then((res) => {
-                assert.ok(res)
+                expect(res.status).equals(200)
                 done()
             }).catch((err) => {
                 done(err)
@@ -124,8 +130,13 @@ describe('Config API test', () => {
      */
     it('Should update a config', (done) => {
         http.put('/api/config/1')
+            .send(
+                {
+                    name: 'Updated Test config', description: 'Awesome test config', command: 'ls -la'
+                }
+            )
             .then((res) => {
-                assert.ok(res)
+                expect(res.status).equals(200)
                 done()
             }).catch((err) => {
                 done(err)
@@ -139,7 +150,7 @@ describe('Config API test', () => {
     it('Should delete a config', (done) => {
         http.delete('/api/config/1')
             .then((res) => {
-                assert.ok(res)
+                expect(res.status).equals(200)
                 done()
             }).catch((err) => {
                 done(err)

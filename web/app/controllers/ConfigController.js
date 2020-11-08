@@ -27,7 +27,7 @@ module.exports = new class ConfigController extends Controller {
         await new Validator(body, { name: 'required', description: 'required', command: 'required' }).validate()
         try {
             const cfg = await Config.create(body)
-            return this.response(cfg)
+            return this.response(cfg, 201)
         } catch (error) {
             return this.response(error, 500)
         }

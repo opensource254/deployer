@@ -41,18 +41,15 @@ class AuthController extends Controller {
         try {
             // Validate the input
             await new Validator(credentials, { email: 'required|email', password: 'required|min:8' }).validate()
-        } catch (error) {
-            return this.response(error, 422)
-        }
-        try {
             // Check if email exists
             const exists = await User.whereFirst({ 'email': credentials['email'] })
             if (exists) {
-                return this.response({
+                throw new Error({
                     errors: {
                         email: ['This email has been registered']
                     }
-                }, 422)
+                })
+
             }
             const { message, status } = await User.register(credentials)
             if (status === 200) {
@@ -60,7 +57,7 @@ class AuthController extends Controller {
             }
             return this.response(message, status)
         } catch (error) {
-            return this.response(error, 500)
+            return this.response(error, error.status | 422)
         }
     }
 }

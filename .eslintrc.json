@@ -10,6 +10,7 @@
         "ecmaVersion": 11
     },
     "rules": {
+        "complexity":["warn", 4],
         "arrow-parens": 2,
         "no-mixed-spaces-and-tabs": 0,
         "no-console": 2,

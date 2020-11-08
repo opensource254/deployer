@@ -73,6 +73,61 @@ describe('Web API test', () => {
                 done(err)
             })
     })
+
+    /**
+     * Logout a user for the next test
+     * 
+     */
+    it('Should logout a user', (done) => {
+        http.post('/api/logout')
+            .then((res) => {
+                expect(res.status).equals(200)
+                done()
+            })
+            .catch((err) => {
+                done(err)
+            })
+    })
+
+    /**
+     * Test the registration with existing email
+     * 
+     */
+    it('Should return 422 on existing email', (done) => {
+        http.post('/api/register')
+            .send(
+                {
+                    email: 'test@mail.com',
+                    password: 'sixdigitpassword'
+                }
+            ).then((res) => {
+                expect(res.status).equals(422)
+                return done()
+            })
+            .catch((err) => {
+                done(err)
+            })
+    })
+
+    /**
+     * Should login a user for the net tests
+     */
+    it('Should login a user', (done) => {
+        http.post('/api/login')
+            .send(
+                {
+                    email: 'test@mail.com',
+                    password: 'sixdigitpassword'
+                }
+            ).then((res) => {
+                expect(res.status).equals(200)
+                expect(res).to.have.cookie('deployer_session')
+                done()
+            })
+            .catch((e) => {
+                done(e)
+            })
+    })
 })
 
 /**

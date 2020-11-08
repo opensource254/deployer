@@ -29,4 +29,5 @@ jobs:
     - run: cp deployment.config.json.example deployment.config.json
     - run: cp .env.example .env
     - run: npm run migrate:dev
+    - run: npm run seed:dev
     - run: npm test --if-present

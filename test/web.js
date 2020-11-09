@@ -5,7 +5,10 @@ const chai = require('chai')
 const chaiHttp = require('chai-http')
 const web = require('../app')
 chai.use(chaiHttp)
-const http = chai.request.agent(web)
+const http = chai
+    .request
+    .agent(web)
+    .keepOpen()
 
 /**
  * --------------------------------------------------------
@@ -28,11 +31,31 @@ describe('Web API test', () => {
     })
 
     /**
+     * Should set the csrf cookie header
+     */
+    it('Should set the csrf cookie header', (done) => {
+        http.get('/api/csrf-cookie')
+            .then((res) => {
+                expect(res.status).equals(204)
+                expect(res).to.have.cookie('XSRF-TOKEN')
+                done()
+            })
+            .catch((error) => {
+                done(error)
+            })
+    })
+
+    /**
+     * Log
+     */
+
+    /**
      * Test the validation of login credentials
      * 
      */
     it('Login should return a 422 when no credentials are given', (done) => {
-        http.post('/api/login')
+        http
+            .post('/api/login')
             .then((res) => {
                 expect(res.status).equals(422)
                 return done()
@@ -41,10 +64,11 @@ describe('Web API test', () => {
             })
     })
 
+
     /**
-     * Test the validation of user registration
-     * 
-     */
+ * Test the validation of user registration
+ * 
+ */
     it('Register should return a 422 status when no credentials are present', (done) => {
         http.post('/api/register').then((res) => {
             expect(res.status).equals(422)
@@ -55,9 +79,9 @@ describe('Web API test', () => {
     })
 
     /**
-     * Test the registration functionality
-     * 
-     */
+ * Test the registration functionality
+ * 
+ */
     it('Should register a new user', (done) => {
         http.post('/api/register')
             .send(
@@ -75,9 +99,9 @@ describe('Web API test', () => {
     })
 
     /**
-     * Logout a user for the next test
-     * 
-     */
+ * Logout a user for the next test
+ * 
+ */
     it('Should logout a user', (done) => {
         http.post('/api/logout')
             .then((res) => {
@@ -90,9 +114,9 @@ describe('Web API test', () => {
     })
 
     /**
-     * Test the registration with existing email
-     * 
-     */
+ * Test the registration with existing email
+ * 
+ */
     it('Should return 422 on existing email', (done) => {
         http.post('/api/register')
             .send(
@@ -110,8 +134,8 @@ describe('Web API test', () => {
     })
 
     /**
-     * Should login a user for the net tests
-     */
+ * Should login a user for the net tests
+ */
     it('Should login a user', (done) => {
         http.post('/api/login')
             .send(
@@ -129,7 +153,6 @@ describe('Web API test', () => {
             })
     })
 })
-
 /**
  * This is used to test the ability to CRUD configs
  * 

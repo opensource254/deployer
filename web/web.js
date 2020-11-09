@@ -28,7 +28,7 @@ web.use(csrf({
     cookie: {
         sameSite: 'lax',
         secure: false,
-        domain: process.env.COOKIE_DOMAIN | 'localhost'
+        domain: process.env.COOKIE_DOMAIN || 'localhost'
     },
     ignoreMethods: process.env.NODE_ENV === 'development' ? ['POST', 'PUT', 'DELETE', 'GET', 'OPTIONS'] : ['GET', 'HEAD', 'OPTIONS'],
     sessionKey: 'de'

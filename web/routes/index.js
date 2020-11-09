@@ -15,7 +15,7 @@ Route.get('/', async (_req, res) => {
  * GET and set the csrf cookie
  */
 Route.get('/csrf-cookie', (req, res) => {
-    res.cookie('XSRF-TOKEN', req.csrfToken())
+    res.cookie('XSRF-TOKEN', req.csrfToken(), {domain: process.env.COOKIE_DOMAIN || 'localhost'})
     res.status(204).json('')
 })
 

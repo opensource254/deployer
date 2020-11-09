@@ -18,14 +18,6 @@ web.use(express.urlencoded({ extended: false }))
 web.use(cookieParser())
 web.use(cors({ origin: true, credentials: true }))
 web.use(bodyParser.urlencoded({ extended: false }))
-web.use(csrf({
-    cookie: {
-        key: 'mysupersecret',
-        sameSite: 'lax',
-        secure: false
-    },
-    ignoreMethods: process.env.NODE_ENV === 'development' ? ['POST', 'PUT', 'DELETE', 'GET', 'OPTIONS'] : ['GET', 'HEAD', 'OPTIONS'] 
-}))
 
 /**Error handling */
 web.use(function (err, _req, res, next) {
@@ -39,6 +31,14 @@ const nextYear = new Date().getFullYear() + 1
 const exp = new Date().setFullYear(nextYear)
 /** */
 web.use(cookieSession({ name: 'deployer_session', keys: ['mysupersecret'], expires: new Date(exp), sameSite: 'lax', secure: false }))
+web.use(csrf({
+    cookie: {
+        sameSite: 'lax',
+        secure: false
+    },
+    ignoreMethods: process.env.NODE_ENV === 'development' ? ['POST', 'PUT', 'DELETE', 'GET', 'OPTIONS'] : ['GET', 'HEAD', 'OPTIONS'],
+    sessionKey: 'de'
+}))
 web.use(express.static(path.join(__dirname, 'public')))
 
 web.use('/', apiRouter)

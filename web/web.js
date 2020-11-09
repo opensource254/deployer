@@ -19,7 +19,11 @@ web.use(cookieParser())
 web.use(cors({ origin: true, credentials: true }))
 web.use(bodyParser.urlencoded({ extended: false }))
 web.use(csrf({
-    cookie: true,
+    cookie: {
+        key: 'mysupersecret',
+        sameSite: 'lax',
+        secure: false
+    },
     ignoreMethods: process.env.NODE_ENV === 'development' ? ['POST', 'PUT', 'DELETE', 'GET', 'OPTIONS'] : ['GET', 'HEAD', 'OPTIONS'] 
 }))
 

@@ -19,13 +19,6 @@ web.use(cookieParser())
 web.use(cors({ origin: true, credentials: true }))
 web.use(bodyParser.urlencoded({ extended: false }))
 
-/**Error handling */
-web.use(function (err, _req, res, next) {
-    if (err.code === 'EBADCSRFTOKEN') {
-        return res.status(403).json(err.message)
-    }
-    next(err)
-})
 /** */
 const nextYear = new Date().getFullYear() + 1
 const exp = new Date().setFullYear(nextYear)
@@ -34,12 +27,21 @@ web.use(cookieSession({ name: 'deployer_session', keys: ['mysupersecret'], expir
 web.use(csrf({
     cookie: {
         sameSite: 'lax',
-        secure: false
+        secure: false,
+        domain: process.env.COOKIE_DOMAIN | 'localhost'
     },
     ignoreMethods: process.env.NODE_ENV === 'development' ? ['POST', 'PUT', 'DELETE', 'GET', 'OPTIONS'] : ['GET', 'HEAD', 'OPTIONS'],
     sessionKey: 'de'
 }))
 web.use(express.static(path.join(__dirname, 'public')))
+
+/**Error handling */
+web.use(function (err, _req, res, next) {
+    if (err.code === 'EBADCSRFTOKEN') {
+        return res.status(403).json(err.message)
+    }
+    next(err)
+})
 
 web.use('/', apiRouter)
 web.use('/config', configRouter)

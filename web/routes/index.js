@@ -6,9 +6,17 @@ const Validator = require('mevn-validator')
 const guest = require('../app/middleware/guest')
 const auth = require('../app/middleware/auth')
 
-/* GET home page. */
+/* GET the root aof the API */
 Route.get('/', async (_req, res) => {
     res.json({ type: 'Success', message: 'Hurray The API is working' })
+})
+
+/**
+ * GET and set the csrf cookie
+ */
+Route.get('/csrf-cookie', (req, res) => {
+    res.cookie('XSRF-TOKEN', req.csrfToken())
+    res.status(204).json('')
 })
 
 /** POST /api/login */

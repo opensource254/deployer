@@ -59,10 +59,3 @@ typings/
 
 # next.js build output
 .next
-
-# Deployment config
-deployment.config.json
-
-# SQLITE
-*.sqlite
-*.sqlite3

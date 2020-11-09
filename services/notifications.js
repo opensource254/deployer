@@ -42,109 +42,109 @@ class NotificationService {
 
     /**
      * initialise the service
-     * @param {Array} data 
-     * @param {String} type 
+     * @param {Array} data
+     * @param {String} type
      */
-    constructor(data = {}, type = '') {
-        this.notificationEnabled = config.allowNotifications
-        this.slackURL = config.slackWebhookURL
-        this.notifyOnError = config.notifyOnErrors
-        this.notifyOnSuccess = config.notifyOnSucess
-        this.notificationEmail = config.notificationEmail
-        this.notificationData = data
-        this.notificationType = type
+    constructor (data = {}, type = '') {
+    	this.notificationEnabled = config.allowNotifications
+    	this.slackURL = config.slackWebhookURL
+    	this.notifyOnError = config.notifyOnErrors
+    	this.notifyOnSuccess = config.notifyOnSucess
+    	this.notificationEmail = config.notificationEmail
+    	this.notificationData = data
+    	this.notificationType = type
     }
 
     /**
      * Send notifications
-     * @param {Array} services 
-     * @returns void
+     * @param {Array} services
+     * @return void
      */
-    sendNotifications() {
-        if (!this.notificationEnabled) {
-            return
-        }
-        if (this.notificationType === 'success' && this.notifyOnSuccess === 'false') {
-            return
-        }
-        if (this.notificationType === 'error' && this.notifyOnError === 'false') {
-            return
-        }
-        const services = this.getSupportedServices()
-        services.forEach((service) => {
-            switch (service.name) {
-                case 'Slack':
-                    this.sendSlackWebhook(service.value)
-                    break;
-                case 'email':
-                    this.sendEmails()
-                    break;
-                default:
-                    break;
-            }
-        })
+    sendNotifications () {
+    	if (!this.notificationEnabled) {
+    		return
+    	}
+    	if (this.notificationType === 'success' && this.notifyOnSuccess === 'false') {
+    		return
+    	}
+    	if (this.notificationType === 'error' && this.notifyOnError === 'false') {
+    		return
+    	}
+    	const services = this.getSupportedServices()
+    	services.forEach((service) => {
+    		switch (service.name) {
+    		case 'Slack':
+    			this.sendSlackWebhook(service.value)
+    			break
+    		case 'email':
+    			this.sendEmails()
+    			break
+    		default:
+    			break
+    		}
+    	})
     }
 
     /**
      * Get the supported services
-     * @returns Array []
+     * @return Array []
      */
-    getSupportedServices() {
-        const supportedServices = []
-        if (this.slackURL) {
-            supportedServices.push({
-                name: 'Slack',
-                value: this.slackURL
-            })
-        }
-        if (this.notificationEmail) {
-            supportedServices.push({
-                name: 'email', value: this.notificationEmail
-            })
-        }
-        return supportedServices
+    getSupportedServices () {
+    	const supportedServices = []
+    	if (this.slackURL) {
+    		supportedServices.push({
+    			name: 'Slack',
+    			value: this.slackURL
+    		})
+    	}
+    	if (this.notificationEmail) {
+    		supportedServices.push({
+    			name: 'email', value: this.notificationEmail
+    		})
+    	}
+    	return supportedServices
     }
 
     /**
      * Send slack webhook
-     * @param {String} url 
-     * @returns Boolean
+     * @param {String} url
+     * @return Boolean
      */
-    sendSlackWebhook(url = '') {
-        const fullURL = new URL(url)
-        const payload = Buffer.from(JSON.stringify({
-            text: this.notificationData.slack,
-            mrkdwn: true
-        }))
-        const request = https.request({
-            host: fullURL.host,
-            path: fullURL.pathname,
-            method: 'POST',
-            port: 443,
-            protocol: 'https:'
-        }, (res) => {
-            res.setEncoding('utf-8');
-        })
-        request.on('error', (err) => {
-            throw err
-        })
-        request.write(payload)
-        request.end()
+    sendSlackWebhook (url = '') {
+    	const fullURL = new URL(url)
+    	const payload = Buffer.from(JSON.stringify({
+    		text: this.notificationData.slack,
+    		mrkdwn: true
+    	}))
+    	const request = https.request({
+    		host: fullURL.host,
+    		path: fullURL.pathname,
+    		method: 'POST',
+    		port: 443,
+    		protocol: 'https:'
+    	}, (res) => {
+    		res.setEncoding('utf-8')
+    	})
+    	request.on('error', (err) => {
+    		throw err
+    	})
+    	request.write(payload)
+    	request.end()
     }
 
     /**
      * Send Email(s)
-     * @param {String} emails 
-     * @returns Boolean
+     * @param {String} emails
+     * @return Boolean
      */
-    sendEmails() {
-        transport.sendMail({
-            from: config.notificationFrom,
-            to: config.notificationEmail,
-            subject: this.notificationData.mail.subject,
-            html: this.notificationData.mail.data,
-        });
-        return true
+    sendEmails () {
+    	transport.sendMail({
+    		from: config.notificationFrom,
+    		to: config.notificationEmail,
+    		subject: this.notificationData.mail.subject,
+    		html: this.notificationData.mail.data
+    	})
+    	return true
     }
 }
 

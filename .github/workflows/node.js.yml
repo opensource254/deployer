@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x]
+        node-version: [12.x, 14.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -26,4 +26,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
     - run: npm run build --if-present
+    - run: cp deployment.config.json.example deployment.config.json
+    - run: cp .env.example .env
+    - run: npm run migrate:dev
+    - run: npm run seed:dev
     - run: npm test --if-present

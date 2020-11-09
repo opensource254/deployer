@@ -1,11 +1,11 @@
 const crypto = require('crypto')
-const secret = process.env.SECRET
 
+const secret = process.env.SECRET
 
 /**
  * Verify Github's sceret
- * @param {*} payloadBody 
- * @param {*} signature 
+ * @param {*} payloadBody
+ * @param {*} signature
  */
 const verifySecret = (payloadBody = [], signature = '') => {
     const buffer = Buffer.from(JSON.stringify(payloadBody))

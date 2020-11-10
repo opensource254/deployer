@@ -15,7 +15,7 @@ Route.get('/', async (_req, res) => {
  * GET and set the csrf cookie
  */
 Route.get('/csrf-cookie', (req, res) => {
-    res.cookie('XSRF-TOKEN', req.csrfToken(), {domain: process.env.COOKIE_DOMAIN || 'localhost'})
+    res.cookie('XSRF-TOKEN', req.csrfToken(), { domain: process.env.COOKIE_DOMAIN || 'localhost' })
     res.status(204).json('')
 })
 
@@ -35,6 +35,7 @@ Route.post('/login', guest, async (req, res) => {
 
 /** Register a new user */
 Route.post('/register', guest, async (req, res) => {
+    if (process.env.NODE_ENV === 'production') { return res.status(405).json('Method not allowed') }
     try {
         const { status, message } = await AuthController.register(req.body)
         if (status === 200) {

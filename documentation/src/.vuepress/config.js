@@ -2,6 +2,10 @@ const { description } = require('../../package')
 
 module.exports = {
   /**
+   * The destination of the build files
+   */
+  dest: '../docs/',
+  /**
    * Ref：https://v1.vuepress.vuejs.org/config/#title
    */
   title: 'Deployer Docs',

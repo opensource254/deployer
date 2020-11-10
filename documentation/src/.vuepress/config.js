@@ -12,7 +12,7 @@ module.exports = {
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#title
    */
-  title: 'Deployer Docs',
+  title: 'Deployer',
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#description
    */
@@ -37,7 +37,7 @@ module.exports = {
   themeConfig: {
     repo: 'https://github.com/opensource254/deployer',
     editLinks: true,
-    docsDir: 'docs',
+    docsDir: 'documentation/src',
     editLinkText: '',
     lastUpdated: true,
     nav: [
@@ -54,18 +54,6 @@ module.exports = {
         link: 'https://github.com.opensource254.co.ke'
       }
     ],
-    sidebar: {
-      '/guide/': [
-        {
-          title: 'Guide',
-          collapsable: false,
-          children: [
-            '',
-            'using-vue',
-          ]
-        }
-      ],
-    }
   },
 
   /**

@@ -6,6 +6,10 @@ module.exports = {
    */
   dest: '../docs/',
   /**
+   * The base of the docs
+   */
+  base: '/deployer',
+  /**
    * Ref：https://v1.vuepress.vuejs.org/config/#title
    */
   title: 'Deployer Docs',

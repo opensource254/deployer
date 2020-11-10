@@ -8,7 +8,7 @@ module.exports = {
   /**
    * The base of the docs
    */
-  base: '/deployer',
+  base: '/deployer/',
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#title
    */

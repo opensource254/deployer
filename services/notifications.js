@@ -1,3 +1,4 @@
+//@ts-check
 /**
  * ------------------------------------------------------------------------
  * This file contains the notification services that are supported

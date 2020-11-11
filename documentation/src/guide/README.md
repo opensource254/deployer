@@ -34,7 +34,8 @@ The tool makes use of [webkooks](https://en.wikipedia.org/wiki/Webhook) provided
         $ npm run migrate:prod
         ```
       This will create the tables necessary.
-4. Run the application with `npm run start` or `yarn start`. The application runs on [localhost:3232](http://localhost:3232) by default.
+4. Create an admin by running `node setup` and anwering the promts correctly. In production environments it is not possible to create a user via the API
+5. Run the application with `npm run start` or `yarn start`. The application runs on [localhost:3232](http://localhost:3232) by default.
 
 ## Client setup
 Deployer comes with an official client which can be found [here](https://github.com/opensource254/deployer-client). You do not have to use it though. You can create your own.

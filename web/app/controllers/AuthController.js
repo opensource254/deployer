@@ -22,15 +22,19 @@ class AuthController extends Controller {
      * @param {Object} credentials 
      */
     async attempt(credentials = []) {
-        await new Validator(credentials, { email: 'required|email', password: 'required' }).validate()
-        const u = await User.whereFirst({ 'email': credentials.email })
-        if (u) {
-            const { password } = u
-            if (compareSync(credentials.password, password)) {
-                return this.response(u, 200)
+        try {
+            await new Validator(credentials, { email: 'required|email', password: 'required' }).validate()
+            const u = await User.whereFirst({ 'email': credentials.email })
+            if (u) {
+                const { password } = u
+                if (compareSync(credentials.password, password)) {
+                    return this.response(u, 200)
+                }
             }
+            return this.response('These credentials do not match our records', 401)
+        } catch (error) {
+            this.response(error, error.status | 500)
         }
-        return this.response('These credentials do not match our records', 401)
     }
 
     /**

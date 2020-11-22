@@ -102,29 +102,29 @@ describe('Gitlab webhook handler tests', () => {
         }).catch((err) => done(err))
     })
 
-    /**
-     * Handle the bitbucket webhook
-     */
-    it('Should handle the #Gitlab webhook and respond with 201', (done) => {
-        http.post('/gitlab').send(
-            {
-                'repository': {
-                    'name': 'TestConfig',
-                    'url': 'git@example.com:mike/TestConfig.git',
-                    'description': '',
-                    'homepage': 'http://example.com/mike/TestConfig',
-                    'git_http_url': 'http://example.com/mike/TestConfig.git',
-                    'git_ssh_url': 'git@example.com:mike/TestConfig.git',
-                    'visibility_level': 0
-                },
+    // /**
+    //  * Handle the bitbucket webhook
+    //  */
+    // it('Should handle the #Gitlab webhook and respond with 201', (done) => {
+    //     http.post('/gitlab').send(
+    //         {
+    //             'repository': {
+    //                 'name': 'TestConfig',
+    //                 'url': 'git@example.com:mike/TestConfig.git',
+    //                 'description': '',
+    //                 'homepage': 'http://example.com/mike/TestConfig',
+    //                 'git_http_url': 'http://example.com/mike/TestConfig.git',
+    //                 'git_ssh_url': 'git@example.com:mike/TestConfig.git',
+    //                 'visibility_level': 0
+    //             },
 
-            }
-        ).then((res) => {
-            expect(res.status).equals(201)
-            done()
-        }).catch((err) => {
-            done(err)
-        })
-    })
+    //         }
+    //     ).then((res) => {
+    //         expect(res.status).equals(201)
+    //         done()
+    //     }).catch((err) => {
+    //         done(err)
+    //     })
+    // })
 })
 

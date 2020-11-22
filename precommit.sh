@@ -5,7 +5,7 @@ set -e
 
 user=$(whoami)
 # remove the sqlite database
-rm dev.sqlite3
+rm dev.sqlite
 
 # Make new migrations
 npm run migrate:dev

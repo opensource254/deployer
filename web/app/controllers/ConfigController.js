@@ -93,10 +93,10 @@ module.exports = new class ConfigController extends Controller {
             if (!cfg) {
                 return this.response('Configuration not found', 404)
             }
-            const runCommad = new Promise((resolve, reject) => {
+            const runCommad = new Promise((resolve, _reject) => {
                 exec(cfg.command, (error, stdout, stderr) => {
                     if (error) {
-                        return reject(error)
+                        return resolve(error)
                     }
                     if (stderr) {
                         return resolve(stderr)

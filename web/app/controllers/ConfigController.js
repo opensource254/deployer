@@ -1,8 +1,10 @@
 const Validator = require('mevn-validator')
 const Config = require('../models/Config')
+const { execSync, exec, execFileSync } = require('child_process')
 /* eslint no-unused-vars: "off" */
 // TODO Enable the disabled rules when done
 const Controller = require('./Controller')
+const { stdout, stderr } = require('process')
 
 module.exports = new class ConfigController extends Controller {
     /**
@@ -76,6 +78,34 @@ module.exports = new class ConfigController extends Controller {
         try {
             const cfg = await Config.delete(config)
             return this.response(cfg.message, cfg.status)
+        } catch (error) {
+            return this.response(error, 500)
+        }
+    }
+
+    /**
+     * Run the command for a particular controller
+     * @param {Number} config 
+     */
+    async run(config) {
+        try {
+            const cfg = await Config.find(config)
+            if (!cfg) {
+                return this.response('Configuration not found', 404)
+            }
+            const runCommad = new Promise((resolve, reject) => {
+                exec(cfg.command, (error, stdout, stderr) => {
+                    if (error) {
+                        return reject(error)
+                    }
+                    if (stderr) {
+                        return resolve(stderr)
+                    }
+                    return resolve(stdout)
+                })
+            })
+            const output = await runCommad
+            return this.response(output)
         } catch (error) {
             return this.response(error, 500)
         }

@@ -6,8 +6,8 @@ exports.up = function (knex) {
         table.text('description').nullable()
         table.text('command')
     })
-};
+}
 
 exports.down = function (knex) {
-    return knex().schema.dropTable('configs')
-};
+    return knex.schema.dropTable('configs')
+}

@@ -4,27 +4,40 @@
 const readline = require('readline')
 const os = require('os')
 const User = require('./web/app/models/User')
+const fs = require('fs')
+const Validator = require('mevn-validator')
 
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
+    terminal: true
 })
 
 rl.question('Your name: ', (name) => {
     rl.question('Your email: ', (email) => {
         rl.question('Choose password: ', (password) => {
+            // validate the input
+
             (async function register() {
-                const {status, message} = await User.register({name, email, password})
-                if (status === 500) {
-                    console.warn(message)
+                try {
+                    await new Validator({ name, email, password }, { 'name': 'required', email: 'required|email', password: 'required|min:8' }).validate()
+                    const { status, message } = await User.register({ name, email, password })
+                    if (status === 500) {
+                        // console.warn('Command failed Check logs for more information')
+                        fs.writeFileSync('error.log', `${new Date().toUTCString()}, ${message} \n`, { flag: 'a' })
+                        rl.write('Command failed Check logs for more information')
+                        rl.close()
+                    }
+                    rl.write(`Hi, ${name}, please use ${email} and ${password} as your logins`)
+                    rl.close()
+                } catch (e) {
+                    console.error(e)
+                    rl.close()
                 }
-                console.log(`Hi, ${name}, please use ${email} and ${password} as your logins`)
-                rl.close()
             })()
         })
     })
 })
-
 
 rl.on('close', () => {
     console.log(`\n Bye ${os.userInfo().username}`)

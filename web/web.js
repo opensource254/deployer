@@ -9,6 +9,7 @@ const bodyParser = require('body-parser')
 
 const apiRouter = require('./routes/index')
 const configRouter = require('./routes/config')
+const commandRouter = require('./routes/command')
 
 const web = express()
 
@@ -45,5 +46,6 @@ web.use(function (err, _req, res, next) {
 
 web.use('/', apiRouter)
 web.use('/config', configRouter)
+web.use('/command', commandRouter)
 
 module.exports = web

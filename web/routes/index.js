@@ -1,8 +1,6 @@
 const express = require('express')
 const AuthController = require('../app/controllers/AuthController')
-
 const Route = express.Router()
-const Validator = require('mevn-validator')
 const guest = require('../app/middleware/guest')
 const auth = require('../app/middleware/auth')
 
@@ -22,7 +20,6 @@ Route.get('/csrf-cookie', (req, res) => {
 /** POST /api/login */
 Route.post('/login', guest, async (req, res) => {
     try {
-        await new Validator(req.body, { email: 'required|email', password: 'string' }).validate()
         const { message, status } = await AuthController.attempt(req.body)
         if (status === 200) {
             req.session.user = message

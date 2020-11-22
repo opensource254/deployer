@@ -1,8 +1,8 @@
 #!/bin/env bash
 set -e
 # remove the sqlite database
-echo -e "\e[33mRemoving dev.sqlite3"
-rm dev.sqlite3
+echo -e "\e[33mRemoving dev.sqlite"
+rm dev.sqlite
 
 # Make new migrations
 echo -e "\e[32mRunning Migrations"

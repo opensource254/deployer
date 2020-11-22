@@ -86,6 +86,7 @@ describe('Web API test', () => {
         http.post('/api/register')
             .send(
                 {
+                    name: 'John Doe',
                     email: 'test@mail.com',
                     password: 'sixdigitpassword'
                 }
@@ -177,7 +178,7 @@ describe('Config API test', () => {
         http.post('/api/config')
             .send(
                 {
-                    name: 'TestConfig', description: 'Awesome test config', command: 'ls -la'
+                    name: 'TestConfig', description: 'Awesome test config', command: 'ls -a'
                 }
             )
             .then((res) => {
@@ -221,12 +222,25 @@ describe('Config API test', () => {
             })
     })
 
-    /**
-     * Test the deletion of a config
-     * 
-     */
+    it('Should execute a command', (done) => {
+        http.post('/api/command/run')
+            .send({
+                command: 6
+            }).then((response) => {
+                expect(response.status).equals(200)
+                done()
+            }).catch((er) => {
+                done(er)
+            })
+    })
+
+
+    // /**
+    //  * Test the deletion of a config
+    //  * 
+    //  */
     it('Should delete a config', (done) => {
-        http.delete('/api/config/1')
+        http.delete('/api/config/2')
             .then((res) => {
                 expect(res.status).equals(200)
                 done()

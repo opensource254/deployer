@@ -1,5 +1,5 @@
 const fs = require('fs')
-const { exec } = require('child_process')
+const { exec, } = require('child_process')
 const NotificationService = require('./notifications')
 
 /**

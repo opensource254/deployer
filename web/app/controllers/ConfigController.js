@@ -96,10 +96,10 @@ module.exports = new class ConfigController extends Controller {
             const runCommad = new Promise((resolve, _reject) => {
                 exec(cfg.command, (error, stdout, stderr) => {
                     if (error) {
-                        return resolve(error)
+                        // TODO handle this properly
                     }
                     if (stderr) {
-                        return resolve(stderr)
+                        // TODO  Handle warninngs properly
                     }
                     return resolve(stdout)
                 })

@@ -8,7 +8,7 @@ class User extends Model {
      */
     register(details = []) {
         const { password } = details
-        const hash = hashSync(password, 10)
+        const hash = hashSync(password || '', 10)
         details['password'] = hash
         return this.create(details)
     }

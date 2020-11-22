@@ -1,10 +1,11 @@
-/** @var knex = require('knex')() */
+/** @var knex  = require("knex")() */
+//const knexx = require('knex')()
 exports.up = function (knex) {
     return knex.schema.createTable('users', (table) => {
         table.bigIncrements('id')
         table.string('name').nullable()
-        table.string('email').unique()
-        table.string('password')
+        table.string('email').notNullable().unique()
+        table.string('password').notNullable()
     })
 }
 

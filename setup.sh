@@ -22,12 +22,12 @@ echo "Enter your database password"
 read DB_PASSWORD
 
 ## Write to the .env file
-echo "PORT=${PORT}" >> .env.test
-echo " " >> .env.test
-echo "DB_CLIENT=${DB_CLIENT}" >> .env.test
-echo "DB_HOST=${DB_HOST}" >> .env.test
-echo "DB_USER=${DB_USER}" >> .env.test
-echo "DB_PASSWORD=${DB_PASSWORD}" >> .env.test
+echo "PORT=${PORT}" >> .env
+echo " " >> .env
+echo "DB_CLIENT=${DB_CLIENT}" >> .env
+echo "DB_HOST=${DB_HOST}" >> .env
+echo "DB_USER=${DB_USER}" >> .env
+echo "DB_PASSWORD=${DB_PASSWORD}" >> .env
 
 ## Setup SLACK
 echo "Would you like to receive slack notifications y/n"
@@ -35,9 +35,9 @@ read SLACK_NOTIFICATIONS
 ## Slack notifications have been allowed
 if [ $SLACK_NOTIFICATIONS == 'y' ]
 then
-   echo " " >> .env.test
-   echo "SLACK_NOTIFICATION=true" >> .env.test
+   echo " " >> .env
+   echo "SLACK_NOTIFICATION=true" >> .env
    echo "Enter the slack webhook URL below"
    read SLACK_WEBHOOK_URL
-   echo "SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL}" >> .env.test
+   echo "SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL}" >> .env
 fi

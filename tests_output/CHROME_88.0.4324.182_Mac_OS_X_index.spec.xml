@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="1"
+            failures="1"
+            tests="1">
+
+  <testsuite name="index.spec"
+    errors="1" failures="1" hostname="" id="" package="index.spec" skipped="0"
+    tests="1" time="6.080" timestamp="">
+  
+    <testcase name="open app correctly" classname="index.spec" time="6.080" assertions="1">  <failure message="Testing if element &lt;Element [name=@docButton]&gt; is visible in 1000ms - expected &#34;is visible&#34; but got: &#34;element could not be located&#34; (5265ms)">    at DescribeInstance.&lt;anonymous&gt; (/Users/stanley/work/deployer/test/e2e/specs/index.spec.js:5:17)</failure>
+
+    
+    <error message="Error while running &#34;visible&#34; command: Testing if element [0;33m&lt;Element [name=@docButton]&gt;[0m is visible in 1000ms - expected [0;32m&#34;is visible&#34;[0m but got: [0;31m&#34;element could not be located&#34;[0m [0;90m(5265ms)[0m" type="error"><![CDATA[
+        at DescribeInstance.&lt;anonymous&gt; (/Users/stanley/work/deployer/test/e2e/specs/index.spec.js:5:17)
+    ]]></error>
+    
+    </testcase>
+  
+
+  
+    <system-err>
+        NoSuchElementError: An error occurred while running .isVisible() command on &lt;Element [name=@docButton]&gt;: 
+   {&#34;sessionId&#34;:&#34;ef624819c57de71d4f86a3bf06ad456f&#34;,&#34;status&#34;:0,&#34;value&#34;:[]}
+       at processTicksAndRejections (node:internal/process/task_queues:94:5)
+    </system-err>
+  
+
+    
+
+  
+  </testsuite>
+</testsuites>

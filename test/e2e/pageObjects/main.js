@@ -1,6 +1,6 @@
 module.exports = {
   commands: [],
-  url: 'http://localhost:3000',
+  url: `http://localhost:${process.env.PORT}`,
   elements: {
     docButton: {
       selector: '.button--green',

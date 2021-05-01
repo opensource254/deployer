@@ -1,27 +1,32 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
-  /**
-   * server middleware
-   */
-  serverMiddleware: {
-    '/api': '~/backend/app.js',
-    '/webhook': '~/backend/app.js',
-  },
-
-  // Nuxt server
   server: {
-    port: process.env.PORT || 3000,
+    port: process.env.PORT || 3005,
     host: 'localhost',
     timing: false,
   },
+
+  // Vue router
+  router: {
+    middleware: ['auth'],
+  },
+
+  /**
+   * server middleware
+   * This is where the backend routes go
+   *
+   */
+  serverMiddleware: {
+    '/api': '~/backend/app.js',
+  },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,
+  // ssr: false,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - Deployer',
-    title: 'client',
+    titleTemplate: '%s - deployer',
+    title: 'deployer',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -43,8 +48,6 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
-    // https://go.nuxtjs.dev/stylelint
-    '@nuxtjs/stylelint-module',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
   ],
@@ -55,6 +58,8 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    // Auth module
+    '@nuxtjs/auth-next',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -87,5 +92,9 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    babel: {
+      plugins: [['@babel/plugin-proposal-private-methods', { loose: true }]],
+    },
+  },
 }

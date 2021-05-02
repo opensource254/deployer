@@ -21,7 +21,7 @@ router.get('/user', (req, res) => {
  * Logout a user from the system
  */
 router.post('/logout', (req, res) => {
-  res.json('You have been logged ot')
+  authController.logout(req, res)
 })
 
 module.exports = router

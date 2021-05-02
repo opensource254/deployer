@@ -53,6 +53,24 @@ class AuthController extends Controller {
       res.status(500).json(error)
     }
   }
+
+  /**
+   * End a user's session
+   * @param {*} req
+   * @param {*} res
+   */
+  logout(req, res) {
+    const userId = req.session
+    if (!userId) {
+      return res.json({
+        message: 'You are not athenticated',
+      })
+    }
+    req.session = null
+    return res.json({
+      message: "You've been logged out",
+    })
+  }
 }
 
 module.exports = new AuthController()

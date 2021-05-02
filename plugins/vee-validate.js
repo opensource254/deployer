@@ -4,7 +4,7 @@ import { extend, ValidationObserver, ValidationProvider } from 'vee-validate'
 
 extend('required', {
   ...required,
-  message: 'The {field} is required',
+  message: 'The {_field_} is required',
 })
 
 extend('email', {

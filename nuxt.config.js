@@ -25,8 +25,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - deployer',
-    title: 'deployer',
+    titleTemplate: null,
+    title: 'Deployer',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -86,6 +86,28 @@ export default {
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
           success: colors.green.accent3,
+        },
+      },
+    },
+  },
+
+  /**
+   * Auth configuration
+   */
+  auth: {
+    strategies: {
+      local: {
+        user: {
+          property: 'user',
+        },
+        token: {
+          required: false,
+          type: false,
+        },
+        endpoints: {
+          login: { url: '/api/auth/login', method: 'POST' },
+          logout: { url: '/api/auth/logout', method: 'POST' },
+          user: { url: '/api/auth/user', method: 'GET' },
         },
       },
     },

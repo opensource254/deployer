@@ -1,11 +1,12 @@
 const router = require('express').Router()
+const authController = require('../app/controllers/authController')
 
 /**
  *
  * Authenticate a user using email and password
  */
 router.post('/login', (req, res) => {
-  res.json('Login route')
+  authController.attempt(req, res)
 })
 
 /**
@@ -13,7 +14,7 @@ router.post('/login', (req, res) => {
  *
  */
 router.get('/user', (req, res) => {
-  res.json('The current user')
+  authController.getUser(req, res)
 })
 
 /**

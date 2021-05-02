@@ -1,0 +1,52 @@
+#!/usr/bin/env node
+/* eslint-disable no-console */
+
+const readline = require('readline')
+const os = require('os')
+const fs = require('fs')
+const User = require('../backend/app/models/user')
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: true,
+})
+
+rl.question('Your name: ', (name) => {
+  rl.question('Your email: ', (email) => {
+    rl.question('Choose password: ', (password) => {
+      // validate the input
+      ;(async function register() {
+        try {
+          const { status, message } = await User.register({
+            name,
+            email,
+            password,
+          })
+          if (status === 500) {
+            // console.warn('Command failed Check logs for more information')
+            fs.writeFileSync(
+              'error.log',
+              `${new Date().toUTCString()}, ${message} \n`,
+              { flag: 'a' }
+            )
+            rl.write('Command failed Check logs for more information')
+            rl.close()
+          }
+          rl.write(
+            `Hi, ${name}, please use ${email} and ${password} as your logins`
+          )
+          rl.close()
+        } catch (e) {
+          console.error(e)
+          rl.close()
+        }
+      })()
+    })
+  })
+})
+
+rl.on('close', () => {
+  console.log(`\n Bye ${os.userInfo().username}`)
+  process.exit(0)
+})

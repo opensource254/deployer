@@ -39,7 +39,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: ['~/plugins/vee-validate.js'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -79,9 +79,9 @@ export default {
       dark: false,
       themes: {
         light: {
-          primary: colors.blue.darken2,
+          primary: '#1ecbe1',
           accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
+          secondary: '#E1341E',
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,

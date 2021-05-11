@@ -9,7 +9,7 @@ export default {
 
   // Vue router
   router: {
-    middleware: ['auth'],
+    middleware: 'auth',
   },
 
   /**
@@ -75,6 +75,7 @@ export default {
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
+    treeShake: true,
     theme: {
       dark: false,
       themes: {
@@ -96,7 +97,7 @@ export default {
    */
   auth: {
     strategies: {
-      local: {
+      cookie: {
         user: {
           property: 'user',
         },

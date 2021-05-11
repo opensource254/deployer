@@ -60,7 +60,7 @@ export default {
   methods: {
     async login() {
       try {
-        await this.$auth.loginWith('local', { data: this.credentials })
+        await this.$auth.loginWith('cookie', { data: this.credentials })
       } catch (error) {
         if (error.response.status === 500) {
           throw new Error(error)

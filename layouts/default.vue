@@ -23,33 +23,31 @@
               </v-avatar>
             </v-btn>
           </template>
-          <v-card>
-            <v-list-item-content class="justify-center">
-              <div class="mx-auto text-center">
-                <v-avatar color="brown">
-                  <span class="white--text headline">JD</span>
-                </v-avatar>
-                <h3>{{ $auth.user.name }}</h3>
-                <p class="caption mt-1">
-                  {{ $auth.user.email }}
-                </p>
-                <v-divider class="my-3" />
-                <v-btn to="/" depressed rounded text> Home </v-btn>
-                <v-divider class="my-3" />
-                <v-btn to="/home" depressed rounded text> My account </v-btn>
-                <v-divider class="my-3" />
-                <v-btn
-                  color="error"
-                  depressed
-                  rounded
-                  text
-                  @click="$auth.logout()"
-                >
-                  Logout
-                </v-btn>
-              </div>
-            </v-list-item-content>
-          </v-card>
+          <v-list-item-content class="justify-center">
+            <div class="mx-auto text-center">
+              <v-avatar color="brown">
+                <span class="white--text headline">JD</span>
+              </v-avatar>
+              <h3>{{ $auth.user.name }}</h3>
+              <p class="caption mt-1">
+                {{ $auth.user.email }}
+              </p>
+              <v-divider class="my-3" />
+              <v-btn to="/" depressed rounded text> Home </v-btn>
+              <v-divider class="my-3" />
+              <v-btn to="/home" depressed rounded text> My account </v-btn>
+              <v-divider class="my-3" />
+              <v-btn
+                color="error"
+                depressed
+                rounded
+                text
+                @click="$auth.logout()"
+              >
+                Logout
+              </v-btn>
+            </div>
+          </v-list-item-content>
         </v-menu>
         <template v-else>
           <v-btn text link to="/login"> Login </v-btn>

@@ -25,8 +25,12 @@
             <v-text-field
               v-model="credentials.password"
               :error-messages="errors"
-              type="password"
+              :type="password.visible ? 'text' : 'password'"
               label="Password"
+              :append-icon="
+                password.visible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'
+              "
+              @click:append="password.visible = !password.visible"
             />
           </ValidationProvider>
           <v-btn
@@ -50,6 +54,9 @@ export default {
   layout: 'auth',
   data() {
     return {
+      password: {
+        visible: false,
+      },
       credentials: {
         email: null,
         password: null,

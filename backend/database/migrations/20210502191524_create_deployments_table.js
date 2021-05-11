@@ -9,7 +9,7 @@ exports.up = function (knex) {
     table.bigInteger('application_id').unsigned()
     table.text('log')
     table.boolean('successful')
-    table.timestamps()
+    table.timestamps(true, true)
 
     table
       .foreign('application_id')

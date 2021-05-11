@@ -7,9 +7,9 @@ exports.up = function (knex) {
   return knex.schema.createTable('applications', (table) => {
     table.bigIncrements('id')
     table.string('name')
-    table.string('repository_name')
+    table.string('full_name')
     table.text('command')
-    table.timestamps()
+    table.timestamps(true, true)
   })
 }
 

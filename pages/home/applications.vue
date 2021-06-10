@@ -21,9 +21,10 @@
                   >
                     <v-text-field
                       v-model="newApp.name"
+                      rounded
+                      filled
                       :error-messages="errors"
-                      placeholder="deployer"
-                      label="Name"
+                      placeholder="Name"
                     />
                   </ValidationProvider>
 
@@ -34,9 +35,10 @@
                   >
                     <v-text-field
                       v-model="newApp.full_name"
+                      rounded
+                      filled
                       :error-messages="errors"
-                      placeholder="opensource254/deployer"
-                      label="Full name"
+                      placeholder="Full name"
                     />
                   </ValidationProvider>
 
@@ -47,13 +49,15 @@
                   >
                     <v-textarea
                       v-model="newApp.command"
+                      rounded
+                      filled
                       :error-messages="errors"
                       auto-grow
-                      label="Deployment command"
-                      placeholder="ls -lr"
+                      placeholder="Deployment command"
                     />
                   </ValidationProvider>
                   <v-btn
+                    x-large
                     type="submit"
                     :disabled="invalid"
                     depressed

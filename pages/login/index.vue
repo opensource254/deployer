@@ -12,8 +12,10 @@
             <v-text-field
               v-model="credentials.email"
               :error-messages="errors"
-              label="Email"
+              placeholder="Email"
               type="email"
+              rounded
+              filled
             />
           </ValidationProvider>
 
@@ -24,9 +26,11 @@
           >
             <v-text-field
               v-model="credentials.password"
+              rounded
+              filled
               :error-messages="errors"
               :type="password.visible ? 'text' : 'password'"
-              label="Password"
+              placeholder="Password"
               :append-icon="
                 password.visible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'
               "

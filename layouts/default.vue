@@ -1,11 +1,11 @@
 <template>
   <v-app>
     <v-app-bar flat app hide-on-scroll>
-      <v-toolbar-items>
+      <v-toolbar-title>
         <nuxt-link to="/">
           <v-img height="70" width="70" src="/icon.png" />
         </nuxt-link>
-      </v-toolbar-items>
+      </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
         <v-menu
@@ -55,9 +55,34 @@
       </v-toolbar-items>
     </v-app-bar>
     <v-main>
-      <v-container>
+      <v-container fluid>
         <nuxt />
       </v-container>
     </v-main>
+    <v-bottom-navigation
+      v-if="$vuetify.breakpoint.mobile"
+      fixed
+      shift
+      grow
+      color="primary"
+      app
+    >
+      <v-btn exact to="/home">
+        <span>Home</span>
+        <v-icon>mdi-home-outline</v-icon>
+      </v-btn>
+      <v-btn to="/home/deployments">
+        <span>Deployments</span>
+        <v-icon>mdi-rocket-launch-outline</v-icon>
+      </v-btn>
+      <v-btn to="/home/applications">
+        <span>Applications</span>
+        <v-icon>mdi-apps</v-icon>
+      </v-btn>
+      <v-btn to="/home/settings">
+        <span>Settings</span>
+        <v-icon>mdi-cog-outline</v-icon>
+      </v-btn>
+    </v-bottom-navigation>
   </v-app>
 </template>

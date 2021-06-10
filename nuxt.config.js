@@ -116,6 +116,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    transpile: ['vee-validate'],
     babel: {
       plugins: [['@babel/plugin-proposal-private-methods', { loose: true }]],
     },

@@ -5,7 +5,9 @@ const Controller = require('./controller')
 class AuthController extends Controller {
   /**
    * Attempt to authenticate a user with email and pass
-   * @param {*} request
+   * @param {import('express').Request} req
+   * @param {import('express').Response} res
+   * @param {import('express').NextFunction} next
    */
   async attempt(req, res, next) {
     const failedResponse = {
@@ -15,42 +17,42 @@ class AuthController extends Controller {
     try {
       const user = await User.where({ email }).first()
       if (!user) {
-        res.status(422).json(failedResponse) // The mail does not match
+        return res.status(422).json(failedResponse) // The mail does not match
       }
       const passwordMatches = compareSync(password, user.password)
       if (passwordMatches) {
-        delete user.password
         req.session.userId = user.id
+        req.session.uu = 'hhhh'
+        delete user.password
         return res.json(user) // Login successful
       }
-      res.status(422).json(failedResponse) // login failed
+      return res.status(422).json(failedResponse) // login failed
     } catch (error) {
-      res.status(500).json(error) // A server error occoured
+      return res.status(500).json(error) // A server error occoured
     }
   }
 
   /**
    * Get the current authenticated user
-   * @param {*} req
-   * @param {*} res
+   * @param {import('express').Request} req
+   * @param {import('express').Response} res
+   * @param {import('express').NextFunction} next
    */
-  async getUser(req, res) {
+  async getUser(req, res, next) {
     const failedResponse = {
       message: 'You are not authenticated',
     }
+
     const { userId } = req.session
-    if (!userId) {
-      res.status(401).json(failedResponse)
-    }
     try {
       const user = await User.find(userId)
       if (!user) {
-        res.status(401).json(failedResponse)
+        return res.status(401).json(failedResponse)
       }
       delete user.password
-      res.json({ user })
+      return res.json({ user })
     } catch (error) {
-      res.status(500).json(error)
+      next(error)
     }
   }
 
@@ -63,7 +65,7 @@ class AuthController extends Controller {
     const userId = req.session
     if (!userId) {
       return res.json({
-        message: 'You are not athenticated',
+        message: 'You are not authenticated',
       })
     }
     req.session = null

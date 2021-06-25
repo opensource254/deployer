@@ -5,16 +5,16 @@ const applicationController = require('../app/controllers/applicationController'
  * Load all the applications from the database.
  * The default result count is 15 per page
  */
-router.get('/', (req, res) => {
-  applicationController.index(req, res)
+router.get('/', (req, res, next) => {
+  applicationController.index(req, res, next)
 })
 
 /**
  * Create a new application and return it with
  * a 201 response
  */
-router.post('/', (req, res) => {
-  applicationController.create(req, res)
+router.post('/', (req, res, next) => {
+  applicationController.create(req, res, next)
 })
 
 /**

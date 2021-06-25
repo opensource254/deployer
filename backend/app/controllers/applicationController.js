@@ -7,13 +7,14 @@ class ApplicationController extends Controller {
    * Show all the applications. (15 per page)
    * @param {import('express').Request} req
    * @param {import('express').Response} res
+   * @param {import('express').NextFunction} next
    */
-  async index(req, res) {
+  async index(req, res, next) {
     try {
       const apps = await DB('applications').limit(15)
       res.json(apps)
     } catch (error) {
-      res.status(500).json(error)
+      next(error)
     }
   }
 
@@ -21,8 +22,9 @@ class ApplicationController extends Controller {
    * Create a new event
    * @param {import('express').Request} req
    * @param {import('express').Response} res
+   * @param {import('express').NextFunction} next
    */
-  async create(req, res) {
+  async create(req, res, next) {
     // eslint-disable-next-line camelcase
     const { name, full_name, command } = req.body
     try {
@@ -43,7 +45,7 @@ class ApplicationController extends Controller {
 
       res.status(201).json(app)
     } catch (error) {
-      res.status(500).json(error)
+      next(error)
     }
   }
 

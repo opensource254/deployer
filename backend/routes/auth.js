@@ -5,16 +5,16 @@ const authController = require('../app/controllers/authController')
  *
  * Authenticate a user using email and password
  */
-router.post('/login', (req, res) => {
-  authController.attempt(req, res)
+router.post('/login', (req, res, next) => {
+  authController.attempt(req, res, next)
 })
 
 /**
  * Get the current authenticated user
  *
  */
-router.get('/user', (req, res) => {
-  authController.getUser(req, res)
+router.get('/user', (req, res, next) => {
+  authController.getUser(req, res, next)
 })
 
 /**

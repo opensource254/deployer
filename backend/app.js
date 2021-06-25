@@ -1,11 +1,10 @@
+const fs = require('fs')
 const express = require('express')
 const session = require('express-session')
 const sessionstore = require('sessionstore')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 
-const indexRouter = require('./routes/index')
-const usersRouter = require('./routes/users')
 const authRouter = require('./routes/auth')
 const appsRouter = require('./routes/applications')
 
@@ -31,9 +30,15 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 
-app.use('/', indexRouter)
-app.use('/users', usersRouter)
 app.use('/auth', authRouter)
 app.use('/applications', appsRouter)
+
+app.use(function (err, req, res, next) {
+  fs.writeFileSync('logs/error.log', err.stack, { flag: 'a' })
+  fs.writeFileSync('logs/error.log', '\n-----------------------------\n', {
+    flag: 'a',
+  })
+  res.status(500).json('Something broke!')
+})
 
 module.exports = app

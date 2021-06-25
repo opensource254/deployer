@@ -1,6 +1,4 @@
 # Deployer
-
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4f995596e00d43a89c2fc753bf8786a4)](https://app.codacy.com/gh/opensource254/deployer?utm_source=github.com&utm_medium=referral&utm_content=opensource254/deployer&utm_campaign=Badge_Grade)
 ![Node.js CI](https://github.com/opensource254/deployer/workflows/Node.js%20CI/badge.svg)
 
 > Deploy you apps in seconds using the webhook feature

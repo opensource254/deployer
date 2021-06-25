@@ -4,8 +4,17 @@
       <v-col cols="12">
         <v-dialog v-model="createEventdialog" width="300">
           <template #activator="{ on, attrs }">
-            <v-btn color="primary" large v-bind="attrs" depressed v-on="on"
-              >Create app</v-btn
+            <v-btn
+              fixed
+              right
+              bottom
+              fab
+              color="primary"
+              large
+              v-bind="attrs"
+              depressed
+              v-on="on"
+              ><v-icon>mdi-plus</v-icon></v-btn
             >
           </template>
 
@@ -98,7 +107,14 @@
               <v-btn icon>
                 <v-icon>mdi-pencil-outline</v-icon>
               </v-btn>
-              <v-btn icon color="error">
+              <v-btn
+                icon
+                color="error"
+                @click="
+                  deleteDialog = true
+                  currentApp = app
+                "
+              >
                 <v-icon>mdi-delete-outline</v-icon>
               </v-btn>
             </v-list-item-action>
@@ -106,6 +122,42 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <!-- Dialog to delete an application -->
+    <v-dialog v-model="deleteDialog" width="500">
+      <v-card>
+        <v-card-title>Delete confirmation</v-card-title>
+        <v-card-text>
+          Clicking <b>'Yes delete'</b> below will delete
+          <b
+            ><i>{{ currentApp.name }}</i></b
+          >. This action is irreversible
+        </v-card-text>
+        <v-card-actions>
+          <!-- Confirm delete -->
+          <v-btn
+            depressed
+            rounded
+            outlined
+            color="primary"
+            @click="deleteApp(currentApp.id)"
+            >Yes delete</v-btn
+          >
+          <!-- Cancel action -->
+          <v-btn
+            large
+            depressed
+            rounded
+            color="primary"
+            @click="
+              deleteDialog = false
+              currentApp = {}
+            "
+            >Cancel</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 <script>
@@ -113,6 +165,8 @@ export default {
   data() {
     return {
       createEventdialog: false,
+      deleteDialog: false,
+      currentApp: {},
       applications: [],
       newApp: {
         name: null,
@@ -145,6 +199,17 @@ export default {
             error.response.data.errors
           )
         }
+        throw new Error(error)
+      }
+    },
+    async deleteApp(id) {
+      try {
+        await this.$axios.delete(`/api/applications/${id}`)
+        // All good
+        this.$fetch()
+        this.currentApp = {}
+        this.deleteDialog = false
+      } catch (error) {
         throw new Error(error)
       }
     },

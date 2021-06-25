@@ -1,39 +1,36 @@
 const router = require('express').Router()
 const applicationController = require('../app/controllers/applicationController')
 
-/**
- * Load all the applications from the database.
- * The default result count is 15 per page
- */
-router.get('/', (req, res, next) => {
-  applicationController.index(req, res, next)
-})
+router
+  /**
+   * List all applications
+   */
+  .get('/', (req, res, next) => {
+    applicationController.index(req, res, next)
+  })
 
-/**
- * Create a new application and return it with
- * a 201 response
- */
-router.post('/', (req, res, next) => {
-  applicationController.create(req, res, next)
-})
+  /**
+   * Create a new application
+   */
+  .post('/', (req, res, next) => {
+    applicationController.create(req, res, next)
+  })
 
-/**
- * Get a application using it's database ID
- * A 404 response is returned if the application was
- * Not found in the database
- */
-router.get('/:id', (req, res) => {})
+  /**
+   * Get an application with :id
+   */
+  .get('/:id', (req, res) => {})
 
-/**
- * Update an application's information.
- * Returns 201 on success
- */
-router.put('/:id', (req, res) => {})
+  /**
+   * Update an application
+   */
+  .put('/:id', (req, res) => {})
 
-/**
- * Deletes an application from the database
- * A 200 response is returned on success
- */
-router.delete('/', (req, res) => {})
+  /**
+   * Delete an application
+   */
+  .delete('/:id', (req, res, next) => {
+    applicationController.delete(req, res, next)
+  })
 
 module.exports = router

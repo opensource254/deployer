@@ -67,8 +67,17 @@ class ApplicationController extends Controller {
    * Delete an application from the database
    * @param {import('express').Request} req
    * @param {import('express').Response} res
+   * @param {import('express').NextFunction} next
    */
-  delete(req, res) {}
+  async delete(req, res, next) {
+    const { id } = req.params
+    try {
+      const response = await this._DB('applications').where({ id }).delete()
+      return res.json(response)
+    } catch (error) {
+      next(error)
+    }
+  }
 }
 
 module.exports = new ApplicationController()

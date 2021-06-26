@@ -22,7 +22,6 @@ class AuthController extends Controller {
       const passwordMatches = compareSync(password, user.password)
       if (passwordMatches) {
         req.session.userId = user.id
-        req.session.uu = 'hhhh'
         delete user.password
         return res.json(user) // Login successful
       }

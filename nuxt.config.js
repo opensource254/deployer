@@ -20,6 +20,7 @@ export default {
   serverMiddleware: {
     '/api': '~/backend/app.js',
     '/webhooks': '~/backend/app.js',
+    '/socket.io': '~/backend/app.js',
   },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   // ssr: false,

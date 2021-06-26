@@ -10,12 +10,20 @@ class WebhookController extends Controller {
    * @param {import('express').NextFunction} next
    */
   async github(req, res, next) {
-    const full_name = req.body.repository
-    const app = await this._DB('applications').where({ full_name }).first()
+    const app = await this._DB('applications')
+      .where({ full_name: req.body.repository.full_name })
+      .first()
     if (app) {
+      console.log('hehe')
       const deploy = exec(app.command)
-      deploy.stdout.on('data', (chunk) => {
-        console.log(chunk)
+      deploy.on('error', (err) => {
+        console.log(err.stack)
+      })
+      deploy.on('message', (m) => {
+        console.log(m)
+      })
+      deploy.stdout.on('data', (c) => {
+        console.log(c)
       })
     }
     res.status(201).json('') // Return 201 to Github

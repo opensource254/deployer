@@ -1,30 +1,19 @@
-#!/bin/env bash
-## PRECOMMIT SCRIPT
-# Error Handling
+#!/bin/sh
 set -e
-
 user=$(whoami)
-# remove the sqlite database
-rm dev.sqlite
+echo "Hang in there ${user}. I'm getting things ready 💪🏾"
 
-# Make new migrations
-npm run migrate:dev
+echo "Running the linter 👀"
+npm run lint:js -- --fix && npm run lint:style -- --fix
 
-# Run seeds
-npm run seed:dev
+echo "Your code looks clean 👏🏾💪🏾"
 
-#Lint 
-npm run lint -- --fix
-# Run the Tests
-npm cit
+echo "Let me now run some tests 🧪"
+npm run test
 
-# Stage all the files
+echo "Enter your commit message in the next window 🖊"
 git add --all
-
-# Commit the changes
 git commit
-
-# Publish the changes
 git push
 
-echo "All good to go $user 😁"
+echo "Hurray!! your code has been pushed to remote"

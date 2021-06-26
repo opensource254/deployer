@@ -1,20 +1,23 @@
+
 # Deployer
 ![Node.js CI](https://github.com/opensource254/deployer/workflows/Node.js%20CI/badge.svg)
 
-> Deploy you apps in seconds using the webhook feature
+## Build Setup
 
-## Setup
-1. Clone this repo and open a terminal in the repo 
-2. Install dependencies `npm i` or `npm insall`. Or you can use yarn if you wish
-3. Copy `.env.example` to `.env` and edit the necessary entries
-4. Start your server.
+```bash
+# install dependencies
+$ npm install
 
-*All the deployment config is stored in your database so you need to login in using your client*
-If you don't have your own client you can use [this](https://github.com/opensource254/deployer-client).
-### Using the client
-_Docs coming soon_
+# serve with hot reload at localhost:3000
+$ npm run dev
 
-<!-- // TODO update the new docs  -->
+# build for production and launch server
+$ npm run build
+$ npm run start
+
+# generate static project
+$ npm run generate
+```
 
 ## Endpoints
 API endpoints
@@ -42,3 +45,4 @@ API endpoints
 | `/github`    | POST   | Github's webhook listener    |
 | `/bitbucket` | POST   | Bitbucket's webhook listener |
 | `/gitlab`    | POST   | Gitlab's webhook listener    |
+

@@ -8,6 +8,7 @@ exports.up = function (knex) {
     table.bigIncrements('id')
     table.string('name')
     table.string('full_name')
+    table.string('deploy_branch').defaultTo('main')
     table.text('command')
     table.timestamps(true, true)
   })

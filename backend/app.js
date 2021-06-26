@@ -7,6 +7,7 @@ const logger = require('morgan')
 
 const authRouter = require('./routes/auth')
 const appsRouter = require('./routes/applications')
+const webhooksRouter = require('./routes/webhooks')
 
 const app = express()
 
@@ -30,6 +31,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 
+app.use(webhooksRouter)
 app.use('/auth', authRouter)
 app.use('/applications', appsRouter)
 

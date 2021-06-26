@@ -41,7 +41,7 @@
     "eslint-plugin-nuxt": "^2.0.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-vue": "^7.12.1",
-    "prettier": "^2.3.1"
+    "prettier": "^2.3.2"
   },
   "description": "## Build Setup",
   "main": ".eslintrc.js",

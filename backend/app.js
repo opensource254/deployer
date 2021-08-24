@@ -4,8 +4,6 @@ const session = require('express-session')
 const sessionstore = require('sessionstore')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
-const { Server } = require('socket.io')
-const io = new Server()
 
 const authRouter = require('./routes/auth')
 const appsRouter = require('./routes/applications')
@@ -44,9 +42,4 @@ app.use(function (err, req, res, next) {
   })
   res.status(500).json('Something broke!')
 })
-io.on('connection', (socket) => {
-  console.log('a user connected')
-})
-
-io.listen(3500)
 module.exports = app

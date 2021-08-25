@@ -5,4 +5,8 @@ router.get('/', (req, res, next) => {
   StatsController.getStats(req, res, next)
 })
 
+router.get('/deployments', (req, res, next) => {
+  StatsController.getDeployments(req, res, next)
+})
+
 module.exports = router

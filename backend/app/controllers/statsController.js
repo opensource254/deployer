@@ -39,6 +39,27 @@ class Statscontroller extends Controller {
       next(error)
     }
   }
+
+  /***
+   * Get the deployments list for the deployments page
+   * @param {import('express').Request} req - the request object
+   * @param {import('express').Response} res - the response object
+   * @param {import('express').NextFunction} next - next callback
+   * @returns {Promise<void>}
+   */
+  async getDeployments(req, res, next) {
+    try {
+      const deployments = await this._DB('deployments')
+        .join('applications', 'applications.id', 'deployments.application_id')
+        .select('deployments.*', 'applications.name AS applicationName')
+        .orderBy('deployments.created_at', 'DESC')
+        .limit(15)
+
+      res.json(deployments)
+    } catch (error) {
+      next(error)
+    }
+  }
 }
 
 module.exports = new Statscontroller()

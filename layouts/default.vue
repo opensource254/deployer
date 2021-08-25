@@ -32,9 +32,6 @@
               <p class="caption mt-1">
                 {{ $auth.user.email }}
               </p>
-              <v-divider class="my-3" />
-              <v-btn to="/" depressed rounded text> Home </v-btn>
-              <v-divider class="my-3" />
               <v-btn to="/home" depressed rounded text> My account </v-btn>
               <v-divider class="my-3" />
               <v-btn

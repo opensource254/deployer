@@ -38,7 +38,6 @@ rl.question('Your name: ', (name) => {
           )
           rl.close()
         } catch (e) {
-          console.error(e)
           rl.close()
         }
       })()

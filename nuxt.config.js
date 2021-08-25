@@ -41,7 +41,11 @@ export default {
   css: ['~/assets/prism.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/vee-validate.js', '~/plugins/prism.js'],
+  plugins: [
+    '~/plugins/vee-validate.js',
+    '~/plugins/prism.js',
+    '~/plugins/axios.js',
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -98,6 +102,12 @@ export default {
    * Auth configuration
    */
   auth: {
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      callback: '/login',
+      home: '/home',
+    },
     strategies: {
       cookie: {
         user: {

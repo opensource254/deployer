@@ -1,46 +1,97 @@
 #!/bin/sh
+## Add error handling
 set -e
-echo -e "Default \e[32mGreen"
-## The port that your application runs on
-echo "Enter the port that deployer would run on e.g 3005"
-read PORT
+set -u
+## Add logging
 
-## This is the database client
-echo "Enter your database client e.g mysql"
-read DB_CLIENT
+## get the current user
+USER=`whoami`
+CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+echo "Using $CURRENT_DIR as working directory"
 
-## This is the database host
-echo "Enter your database host"
-read DB_HOST
-
-## This is the database username
-echo "Enter your database username"
-read DB_USER
-
-## Database password
-echo "Enter your database password"
-read DB_PASSWORD
-
-## Database schema
-echo "Enter your database name"
-read DB_SCHEMA
-
-## Write to the .env file
-echo "PORT=${PORT}\n" >> .env
-echo "DB_CLIENT=${DB_CLIENT}" >> .env
-echo "DB_HOST=${DB_HOST}" >> .env
-echo "DB_USER=${DB_USER}" >> .env
-echo "DB_PASSWORD=${DB_PASSWORD}" >> .env
-echo "DB_SCHEMA=${DB_SCHEMA}\n" >> .env
-
-## Setup SLACK
-echo "Would you like to receive slack notifications y/n"
-read SLACK_NOTIFICATIONS
-## Slack notifications have been allowed
-if [ $SLACK_NOTIFICATIONS == 'y' ]
-then
-   echo "SLACK_NOTIFICATION=true" >> .env
-   echo "Enter the slack webhook URL below"
-   read SLACK_WEBHOOK_URL
-   echo "SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL}" >> .env
+if ! which node > /dev/null; then
+    echo "Node not found in PATH. Please install nodejs first"
+    exit 1
 fi
+
+if ! which npm > /dev/null; then
+    echo "Npm not found in PATH. Please install npm first"
+    exit 1
+fi
+
+if [ ! -f .env ]; then
+    echo "Creating .env file"
+    touch .env
+fi
+ 
+ > .env
+
+ ## Ask for the PORT value
+read -p "What port do you want deployer to run? (default 3005): " PORT
+if [ -z "$PORT" ]; then
+    PORT=3005
+fi
+echo "PORT=$PORT" >> .env
+
+read -p "What is your deployer host? (default localhost): " HOST
+if [ -z "$HOST" ]; then
+    HOST=localhost
+fi
+echo "HOST=$HOST\n" >> .env
+
+read -p "What is your database client? (default mysql): " DB_CLIENT
+if [ -z "$DB_CLIENT" ]; then
+    DB_CLIENT=mysql
+fi
+echo "DB_CLIENT=$DB_CLIENT" >> .env
+
+read -p "What is your database host? (default localhost): " DB_HOST
+if [ -z "$DB_HOST" ]; then
+    DB_HOST=localhost
+fi
+echo "DB_HOST=$DB_HOST" >> .env
+
+read -p "What is your database username? (default $USER): " DB_USER
+if [ -z "$DB_USER" ]; then
+    DB_USER=$USER
+fi
+echo "DB_USER=$DB_USER" >> .env
+
+read -p "What is your database password? (default $USER): " DB_PASSWORD
+if [ -z "$DB_PASSWORD" ]; then
+    DB_PASSWORD=$USER
+fi
+echo "DB_PASSWORD=$DB_PASSWORD" >> .env
+
+read -p "What is your database name? (default deployer): " DB_NAME
+if [ -z "$DB_NAME" ]; then
+    DB_NAME=deployer
+fi
+echo "DB_SCHEMA=$DB_NAME" >> .env
+
+echo "Installing dependencies"
+npm install --no-audit --no-fund
+
+echo "Installing $DB_CLIENT driver"
+npm install --no-audit --no-fund $DB_CLIENT
+
+echo "Testing database connection"
+mysql -u$DB_USER -p$DB_PASSWORD -h$DB_HOST -e "CREATE DATABASE IF NOT EXISTS $DB_NAME"
+
+echo "Running migrations"
+npx knex migrate:latest --env=production
+
+## Run the bin/dep node script
+echo "Create a new user"
+node bin/dep
+
+if ! which pm2 > /dev/null; then
+    echo "pm2 not found in PATH. Please install pm2 first"
+    exit 1
+fi
+
+echo "Building your app for production"
+npm run build
+
+echo "Starting pm2"
+pm2 startOrRestart ecosystem.config.js --env production

@@ -23,6 +23,11 @@ if [ ! -f .env ]; then
     echo "Creating .env file"
     touch .env
 fi
+
+if [ ! -d logs ]; then
+    echo "Creating logs directory"
+    mkdir logs
+fi
  
  > .env
 

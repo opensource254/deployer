@@ -8,7 +8,7 @@
           color="primary"
           height="70"
         >
-          23
+          {{ stats.applicationCount }}
         </v-sheet>
         <v-card-text class="text-center title">Applications</v-card-text>
       </v-card>
@@ -22,7 +22,7 @@
           color="success"
           height="70"
         >
-          55
+          {{ stats.totalDeployments }}
         </v-sheet>
         <v-card-text class="text-center title">Deployments</v-card-text>
       </v-card>
@@ -36,13 +36,26 @@
           color="error"
           height="70"
         >
-          78
+          {{ stats.failedDeployments }}
         </v-sheet>
         <v-card-text class="text-center title">Failed deployments</v-card-text>
       </v-card>
     </v-col>
   </v-row>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      stats: {},
+    }
+  },
+  async fetch() {
+    const { data } = await this.$axios.get('/api/stats')
+    this.stats = data
+  },
+}
+</script>
 <style scoped>
 .stats-sheet {
   margin-top: -15px;

@@ -8,6 +8,7 @@ const logger = require('morgan')
 const authRouter = require('./routes/auth')
 const appsRouter = require('./routes/applications')
 const webhooksRouter = require('./routes/webhooks')
+const statsRouter = require('./routes/stats')
 
 const app = express()
 
@@ -34,6 +35,7 @@ app.use(cookieParser())
 app.use(webhooksRouter)
 app.use('/auth', authRouter)
 app.use('/applications', appsRouter)
+app.use('/stats', statsRouter)
 
 app.use(function (err, req, res, next) {
   fs.writeFileSync('logs/error.log', err.stack, { flag: 'a' })

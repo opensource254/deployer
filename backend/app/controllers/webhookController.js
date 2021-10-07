@@ -57,11 +57,11 @@ class WebhookController extends Controller {
       })
 
       deploy.stdout.on('data', (c) => {
-        output += `${c}\n`
+        output += c
       })
 
       deploy.stderr.on('data', (c) => {
-        errorOutput += `${c}\n`
+        errorOutput += c
       })
 
       deploy.on('error', (err) => {
@@ -69,7 +69,7 @@ class WebhookController extends Controller {
       })
 
       deploy.on('message', (m) => {
-        output += `${m}\n`
+        output += m
       })
     }
   }

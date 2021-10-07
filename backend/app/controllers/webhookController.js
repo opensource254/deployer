@@ -23,6 +23,11 @@ class WebhookController extends Controller {
       .where({ full_name: req.body.repository.full_name })
       .first()
     if (app) {
+      const [deploymentId] = await this._DB('deployments').insert({
+        application_id: app.id,
+        log: '',
+        successful: 0,
+      })
       const deploy = execFile(
         path.resolve(__dirname, '../../../bin/deploy.sh'),
         [app.deploy_directory, app.clone_url, app.deploy_branch]
@@ -32,17 +37,23 @@ class WebhookController extends Controller {
       let errorOutput = ''
       deploy.on('close', async (code) => {
         if (code !== 0) {
-          return await this._DB('deployments').insert({
-            application_id: app.id,
-            log: errorOutput,
-            successful: 0,
-          })
+          return await this._DB('deployments')
+            .where({ id: deploymentId })
+            .update({
+              application_id: app.id,
+              log: errorOutput,
+              successful: 0,
+              updated_at: new Date(),
+            })
         }
-        return await this._DB('deployments').insert({
-          application_id: app.id,
-          log: output,
-          successful: 1,
-        })
+        return await this._DB('deployments')
+          .where({ id: deploymentId })
+          .update({
+            application_id: app.id,
+            log: output,
+            successful: 1,
+            updated_at: new Date(),
+          })
       })
 
       deploy.stdout.on('data', (c) => {
@@ -95,9 +106,11 @@ class WebhookController extends Controller {
       })
       deploy
         .on('error', (err) => {
+          // eslint-disable-next-line no-console
           console.log(err.stack)
         })
         .on('message', (m) => {
+          // eslint-disable-next-line no-console
           console.log(m)
         })
 

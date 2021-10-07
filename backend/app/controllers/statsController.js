@@ -70,23 +70,18 @@ class Statscontroller extends Controller {
    **/
   async getDeployment(req, res, next) {
     try {
-      const deployment = await this._DB('deployments')
-        .where({
-          'deployments.id': req.params.id,
-        })
-        .join('applications', 'applications.id', 'deployments.application_id')
-        .select('deployments.*', 'applications.name AS applicationName')
-        .first()
+      const deployment = await this._DB.raw(
+        `SELECT deployments.log, deployments.created_at, deployments.successful, deployments.id, TIMEDIFF(deployments.updated_at, deployments.created_at) AS duration, applications.name AS applicationName FROM deployments JOIN applications ON applications.id = deployments.application_id WHERE deployments.id = ${req.params.id} limit 1`
+      )
 
-      if (!deployment) {
+      if (!deployment[0]) {
         res.status(404).json({
           message: 'Deployment not found',
         })
       }
 
-      res.json(deployment)
+      res.json(deployment[0][0])
     } catch (error) {
-      console.log(error)
       next(error)
     }
   }

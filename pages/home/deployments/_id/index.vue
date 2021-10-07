@@ -15,7 +15,7 @@
           <v-card-text class="body-1">
             <v-row>
               <v-col cols="12" md="6">
-                Deployment ID: {{ deployment.id }}
+                Duration: {{ deployment.duration }}
               </v-col>
               <v-col cols="12" md="6">
                 Deployment name: {{ deployment.applicationName }}
@@ -41,11 +41,9 @@
           <v-card-title>
             <span class="headline">Deployment Logs</span>
           </v-card-title>
-          <v-card-text class="body-1">
-            <div class="code-div">
-              <pre><code class="language-shell">{{ deployment.log || 'N/A' }}</code></pre>
-            </div>
-          </v-card-text>
+          <div class="code-div">
+            <pre><code class="language-shell">{{ deployment.log || 'N/A' }}</code></pre>
+          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -68,3 +66,15 @@ export default {
   methods: {},
 }
 </script>
+
+<style scoped>
+.code-div {
+  font-family: 'Fira Code', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow: auto;
+  padding: 1rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+</style>

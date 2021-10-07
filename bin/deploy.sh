@@ -25,11 +25,12 @@ fi
 
 git_branch=$3
 if [ -z "$git_branch" ]; then
-    git_branch="main"
+   git_branch="main"
 fi
 
 echo "$(date) - Starting deployment"
 echo "$(date) - Current user: $(whoami)"
+echo "$(date) - Current directory: $(pwd)"
 
 
 # get the folder name from the repository url
@@ -61,23 +62,6 @@ echo "$(date) - Current commit: $(git rev-parse HEAD)"
 echo "$(date) - Current commit message: $(git log -1 --pretty=%B)"
 echo "$(date) - Current commit author: $(git log -1 --pretty=%an)"
 echo "$(date) - Current commit date: $(git log -1 --pretty=%ad)"
-if [ -f "update.sh" ]; then
-    echo "Running update.sh..."
-    ./update.sh
-    echo "Done."
-    elif [ -f "deploy.sh" ]; then
-    echo "Running deploy.sh..."
-    ./deploy.sh
-    echo "Done."
-    elif [ -f "postdeploy.sh" ]; then
-    echo "Running postdeploy.sh..."
-    ./postdeploy.sh
-    echo "Done."
-    else 
-    echo "Please run your postdeploy script manually"
-fi
-
-echo "Please run your update script manually."
 echo "Removing .git folder"
 rm -rf $DEPLOY_DIR/$folder_name/.git
 echo "Copying files from $DEPLOY_DIR/$folder_name to $deployment_dir"
@@ -89,3 +73,25 @@ cd $deployment_dir$folder_name
 echo "Running post deployment script"
 ## check for the existtense of any of theses files update.sh, deploy.sh, postdeploy.sh
 ## if they exist then run the script
+if [ -f "update.sh" ]; then
+    echo "Running update.sh..."
+    exec ./update.sh
+    echo "Done."
+    exit 0
+fi
+
+if [ -f "deploy.sh" ]; then
+    echo "Running deploy.sh..."
+    exec ./deploy.sh
+    echo "Done."
+    exit 0
+fi
+
+if [ -f "postdeploy.sh" ]; then
+    echo "Running postdeploy.sh..."
+    exec ./postdeploy.sh
+    echo "Done."
+    exit 0
+fi
+
+echo "Please run your update script manually."

@@ -9,4 +9,8 @@ router.get('/deployments', (req, res, next) => {
   StatsController.getDeployments(req, res, next)
 })
 
+router.get('/deployments/:id', (req, res, next) => {
+  StatsController.getDeployment(req, res, next)
+})
+
 module.exports = router

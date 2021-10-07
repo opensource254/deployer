@@ -60,6 +60,36 @@ class Statscontroller extends Controller {
       next(error)
     }
   }
+
+  /***
+   * Get a single deployment by id
+   * @param {import('express').Request} req - the request object
+   * @param {import('express').Response} res - the response object
+   * @param {import('express').NextFunction} next - next callback
+   * @returns {Promise<void>}
+   **/
+  async getDeployment(req, res, next) {
+    try {
+      const deployment = await this._DB('deployments')
+        .where({
+          'deployments.id': req.params.id,
+        })
+        .join('applications', 'applications.id', 'deployments.application_id')
+        .select('deployments.*', 'applications.name AS applicationName')
+        .first()
+
+      if (!deployment) {
+        res.status(404).json({
+          message: 'Deployment not found',
+        })
+      }
+
+      res.json(deployment)
+    } catch (error) {
+      console.log(error)
+      next(error)
+    }
+  }
 }
 
 module.exports = new Statscontroller()

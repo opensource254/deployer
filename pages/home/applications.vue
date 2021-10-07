@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-col cols="12">
-        <v-dialog v-model="createEventdialog" width="300">
+        <v-dialog v-model="createEventdialog" width="400">
           <template #activator="{ on, attrs }">
             <v-btn
               fixed
@@ -22,7 +22,7 @@
             <v-card-title>Add a new application</v-card-title>
             <v-card-text>
               <ValidationObserver ref="validationObserver" v-slot="{ invalid }">
-                <v-form @submit.prevent="createApplication">
+                <v-form ref="form" @submit.prevent="createApplication">
                   <ValidationProvider
                     v-slot="{ errors }"
                     name="name"
@@ -53,16 +53,59 @@
 
                   <ValidationProvider
                     v-slot="{ errors }"
-                    name="command"
+                    name="Clone url"
+                    rules="required"
+                  >
+                    <v-text-field
+                      v-model="newApp.clone_url"
+                      rounded
+                      filled
+                      :error-messages="errors"
+                      placeholder="git@github.com/user/repo.git"
+                    />
+                  </ValidationProvider>
+
+                  <ValidationProvider
+                    v-slot="{ errors }"
+                    name="Deploy branch"
+                    rules="required"
+                  >
+                    <v-text-field
+                      v-model="newApp.deploy_branch"
+                      rounded
+                      filled
+                      :error-messages="errors"
+                      placeholder="main"
+                    />
+                  </ValidationProvider>
+
+                  <ValidationProvider
+                    v-slot="{ errors }"
+                    name="Deploy directory"
+                    rules="required"
+                  >
+                    <v-text-field
+                      v-model="newApp.deploy_directory"
+                      rounded
+                      filled
+                      :error-messages="errors"
+                      placeholder="/var/www/html"
+                    />
+                  </ValidationProvider>
+
+                  <ValidationProvider
+                    v-slot="{ errors }"
+                    name="post deploy script"
                     rules="required"
                   >
                     <v-textarea
-                      v-model="newApp.command"
+                      v-model="newApp.deploy_script"
+                      rows="2"
                       rounded
                       filled
                       :error-messages="errors"
                       auto-grow
-                      placeholder="Deployment command"
+                      placeholder="npm run build"
                     />
                   </ValidationProvider>
                   <v-btn
@@ -99,8 +142,17 @@
               <v-list-item-subtitle>
                 Full name: {{ app.full_name || 'N/A' }}
               </v-list-item-subtitle>
+              <v-list-item-subtitle>
+                Clone url: {{ app.clone_url || 'N/A' }}
+              </v-list-item-subtitle>
+              <v-list-item-subtitle>
+                Deploy branch: {{ app.deploy_branch || 'N/A' }}
+              </v-list-item-subtitle>
+              <v-list-item-subtitle>
+                Deploy directory: {{ app.deploy_directory || 'N/A' }}
+              </v-list-item-subtitle>
               <div class="code-div">
-                <pre><code class="language-bash">{{ app.command || 'N/A' }}</code></pre>
+                <pre><code class="language-bash">{{ app.deploy_script || 'N/A' }}</code></pre>
               </div>
             </v-list-item-content>
             <v-list-item-action>
@@ -193,6 +245,9 @@ export default {
       try {
         await this.$axios.post('/api/applications', this.newApp)
         this.createEventdialog = false
+        this.$refs.form.reset()
+        // this.$refs.validationObserver.reset()
+        this.fetch()
       } catch (error) {
         if (error.response.status === 422) {
           return this.$refs.validationObserver.setErrors(

@@ -8,8 +8,11 @@ exports.up = function (knex) {
     table.bigIncrements('id')
     table.string('name')
     table.string('full_name')
+    table.string('description').defaultTo('No description provided')
+    table.string('clone_url')
     table.string('deploy_branch').defaultTo('main')
-    table.text('command')
+    table.string('deploy_directory').defaultTo('/var/www/')
+    table.text('deploy_script').defaultTo('echo "Hello World"')
     table.timestamps(true, true)
   })
 }

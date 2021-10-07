@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const { DB } = require('mevn-orm')
 const Application = require('../models/application')
 const Controller = require('./controller')
@@ -25,8 +26,15 @@ class ApplicationController extends Controller {
    * @param {import('express').NextFunction} next
    */
   async create(req, res, next) {
-    // eslint-disable-next-line camelcase
-    const { name, full_name, command } = req.body
+    const {
+      name,
+      full_name,
+      description,
+      clone_url,
+      deploy_branch,
+      deploy_directory,
+      deploy_script,
+    } = req.body
     try {
       const exists = await DB('applications')
         .where('name', name)
@@ -40,7 +48,11 @@ class ApplicationController extends Controller {
       const app = await Application.create({
         name,
         full_name,
-        command,
+        description,
+        clone_url,
+        deploy_branch,
+        deploy_directory,
+        deploy_script,
       })
 
       res.status(201).json(app)

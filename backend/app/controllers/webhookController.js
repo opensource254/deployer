@@ -46,14 +46,37 @@ class WebhookController extends Controller {
               updated_at: new Date(),
             })
         }
-        return await this._DB('deployments')
-          .where({ id: deploymentId })
-          .update({
-            application_id: app.id,
-            log: output,
-            successful: 1,
-            updated_at: new Date(),
+        // run the application post deploy script
+        const postDeploy = exec(
+          `cd ${app.deploy_directory}/${app.name} && ${app.deploy_script} && echo "$(pwd)"`,
+          (_err, output, warning) => {
+            if (warning) {
+              output += warning
+            }
+          }
+        )
+        postDeploy
+          .on('error', (err) => {
+            errorOutput += err
           })
+          .on('message', (m) => {
+            output += m
+          })
+
+        postDeploy.stdout.on('data', (c) => {
+          output += c
+        })
+
+        postDeploy.on('close', async (code) => {
+          return await this._DB('deployments')
+            .where({ id: deploymentId })
+            .update({
+              application_id: app.id,
+              log: output,
+              successful: 1,
+              updated_at: new Date(),
+            })
+        })
       })
 
       deploy.stdout.on('data', (c) => {

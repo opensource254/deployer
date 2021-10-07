@@ -9,6 +9,8 @@ set -e
 #    exit 0
 #fi
 
+
+
 deployment_dir=$1
 if [ -z "$deployment_dir" ]; then
     echo "Please provide the deployment directory as the first argument"
@@ -25,6 +27,10 @@ git_branch=$3
 if [ -z "$git_branch" ]; then
    git_branch="main"
 fi
+
+echo "$(date) - Starting deployment"
+echo "$(date) - Current user: $(whoami)"
+echo "$(date) - Current directory: $(pwd)"
 
 
 # get the folder name from the repository url
@@ -51,6 +57,11 @@ if [ -d "$folder_name" ]; then
 fi
 
 git clone  $repository_url --depth=1 -b $git_branch
+echo "$(date) - Current branch: $(git rev-parse --abbrev-ref HEAD)"
+echo "$(date) - Current commit: $(git rev-parse HEAD)"
+echo "$(date) - Current commit message: $(git log -1 --pretty=%B)"
+echo "$(date) - Current commit author: $(git log -1 --pretty=%an)"
+echo "$(date) - Current commit date: $(git log -1 --pretty=%ad)"
 echo "Removing .git folder"
 rm -rf $DEPLOY_DIR/$folder_name/.git
 echo "Copying files from $DEPLOY_DIR/$folder_name to $deployment_dir"
@@ -64,21 +75,21 @@ echo "Running post deployment script"
 ## if they exist then run the script
 if [ -f "update.sh" ]; then
     echo "Running update.sh..."
-    sh update.sh
+    ./update.sh
     echo "Done."
     exit 0
 fi
 
 if [ -f "deploy.sh" ]; then
     echo "Running deploy.sh..."
-    sh deploy.sh
+    ./deploy.sh
     echo "Done."
     exit 0
 fi
 
 if [ -f "postdeploy.sh" ]; then
     echo "Running postdeploy.sh..."
-    sh postdeploy.sh
+    ./postdeploy.sh
     echo "Done."
     exit 0
 fi

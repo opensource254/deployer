@@ -40,9 +40,9 @@ echo "$(date) - Deploying $folder_name to $deployment_dir"
 HOME_DIR=$(eval echo ~$(whoami))
 echo "$(date) - Using  $HOME_DIR as home directory"
 DEPLOY_DIR=$HOME_DIR/deploy
-echo "Using  $DEPLOY_DIR as deploy directory"
+echo "$(date) - Using  $DEPLOY_DIR as deploy directory"
 ## create the deploy directory if it does not exist
-echo "$(date) -Checking if $DEPLOY_DIR exists"
+echo "$(date) - Checking if $DEPLOY_DIR exists"
 if [ ! -d $DEPLOY_DIR ]; then
     mkdir $DEPLOY_DIR
 fi

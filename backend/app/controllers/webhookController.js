@@ -48,7 +48,7 @@ class WebhookController extends Controller {
         }
         // run the application post deploy script
         const postDeploy = exec(
-          `cd ${app.deploy_directory}/${app.name} && ${app.deploy_script} && echo "$(pwd)"`,
+          `cd ${app.deploy_directory}${app.name} && ${app.deploy_script} && echo "$(date): Deployment successful"`,
           (_err, output, warning) => {
             if (warning) {
               output += warning

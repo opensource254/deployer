@@ -25,15 +25,18 @@ fi
 
 git_branch=$3
 if [ -z "$git_branch" ]; then
-   git_branch="main"
+    git_branch="main"
+fi
+
+folder=$4
+if [ -z "$folder" ]; then
+    folder_name=$(basename $repository_url | cut -d. -f1)
 fi
 
 echo "$(date) - Starting deployment the current user is $(whoami)"
 echo "$(date) - System load is $(uptime)"
 
 
-# get the folder name from the repository url
-folder_name=$(basename $repository_url | cut -d. -f1)
 
 echo "$(date) - Deploying $folder_name to $deployment_dir"
 
@@ -65,5 +68,5 @@ rm -rf $DEPLOY_DIR/$folder_name
 echo "$(date) - switching to $deployment_dir$folder_name"
 cd $deployment_dir$folder_name
 
-echo "$(date) - Deployment finished successfully"
+echo "$(date) - Starting the post deployment script"
 exit 0

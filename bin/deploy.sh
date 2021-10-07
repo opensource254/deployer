@@ -73,25 +73,5 @@ cd $deployment_dir$folder_name
 echo "Running post deployment script"
 ## check for the existtense of any of theses files update.sh, deploy.sh, postdeploy.sh
 ## if they exist then run the script
-if [ -f "update.sh" ]; then
-    echo "Running update.sh..."
-    exec ./update.sh
-    echo "Done."
-    exit 0
-fi
-
-if [ -f "deploy.sh" ]; then
-    echo "Running deploy.sh..."
-    exec ./deploy.sh
-    echo "Done."
-    exit 0
-fi
-
-if [ -f "postdeploy.sh" ]; then
-    echo "Running postdeploy.sh..."
-    exec ./postdeploy.sh
-    echo "Done."
-    exit 0
-fi
 
 echo "Please run your update script manually."

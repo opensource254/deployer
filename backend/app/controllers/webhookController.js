@@ -68,6 +68,16 @@ class WebhookController extends Controller {
         })
 
         postDeploy.on('close', async (code) => {
+          if (code !== 0) {
+            return await this._DB('deployments')
+              .where({ id: deploymentId })
+              .update({
+                application_id: app.id,
+                log: errorOutput,
+                successful: 0,
+                updated_at: new Date(),
+              })
+          }
           return await this._DB('deployments')
             .where({ id: deploymentId })
             .update({

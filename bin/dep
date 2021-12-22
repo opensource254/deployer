@@ -1,10 +1,13 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
-
 const readline = require('readline')
 const os = require('os')
 const fs = require('fs')
 const User = require('../backend/app/models/user')
+const mailer = require('../backend/mail/mailer')
+const { email } = require('../backend/config/config')
+
+const mailConfig = email
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -36,8 +39,92 @@ rl.question('Your name: ', (name) => {
           rl.write(
             `Hi, ${name}, please use ${email} and ${password} as your logins`
           )
+          // send email to the user
+          const mailOptions = {
+            from: mailConfig.from,
+            to: email,
+            subject: 'Your Deployer credentials',
+            text: `Hi, ${name}, please use ${email} and ${password} as your logins`,
+            html: `
+            <table>
+              <tr>
+                <td>
+                 <h1> Hi, ${name}, </h1>
+                  <p>
+                  You have successfully registered setup your deployer instance. 
+                  </p>
+                  <p>
+                  In order to login to your instance, please use the following credentials:
+                  </p>
+                  <p>
+                  Email: <code>${email}</code> <br/>
+                  Password: <code>${password}</code>
+                  </p>
+                  <p>
+                  </p>
+                  </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>
+                  The Deployer is a tool to help you deploy your application to your server. It is free to use and is open source. <br>
+                  </p>
+                  </td>
+              </tr>
+            </table>
+            <style>
+            body {
+              font-family: "Apple system", "Helvetica Neue", Helvetica, Arial, sans-serif;
+              font-size: 14px;
+              line-height: 1.42857143;
+              color: #333333;
+              background-color: #ffffff;
+              align-items: center;
+              text-align: center;
+            }
+            h1 {
+              font-size: 24px;
+              line-height: 1.3333333;
+              color: #333333;
+              font-weight: 400;
+            }
+            code {
+              font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+              font-size: 12px;
+              line-height: 1.42857143;
+              color: #333333;
+              background-color: #f5f5f5;
+              padding: 2px 4px;
+              border-radius: 3px;
+            }
+            table {
+              border-collapse: collapse;
+              padding: 30px;
+              width: 100%;
+              background-color: #f2f2f2;
+              border-radius: 15px;
+            }
+            table, th, td {
+              border: 1px solid #ddd;
+              text-align: left;
+              padding: 15px;
+              border-radius: 15px;
+            }
+            table tr:nth-child(even) {
+              background-color: #f2f2f2;
+            }
+            table tr:hover {
+              background-color: #ddd;
+              border-radius: 15px;
+            }
+            </style>
+
+            `,
+          }
+          await mailer.sendMail(mailOptions)
           rl.close()
         } catch (e) {
+          console.log(e)
           rl.close()
         }
       })()

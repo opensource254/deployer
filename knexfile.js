@@ -1,7 +1,7 @@
 require('dotenv').config()
 module.exports = {
   development: {
-    client: process.env.TEST_DB_CLIENT || 'sqlite3',
+    client: process.env.TEST_DB_CLIENT || 'mysql',
     connection: {
       host: process.env.DB_HOST || 'localhost',
       database: process.env.DB_SCHEMA || 'my_db',
@@ -18,7 +18,7 @@ module.exports = {
   },
 
   staging: {
-    client: process.env.DB_CLIENT || 'mysql2',
+    client: process.env.DB_CLIENT || 'mysql',
     connection: {
       host: process.env.DB_HOST || 'localhost',
       database: process.env.DB_SCHEMA || 'my_db',
@@ -39,7 +39,7 @@ module.exports = {
   },
 
   production: {
-    client: process.env.DB_CLIENT || 'mysql2',
+    client: process.env.DB_CLIENT || 'mysql',
     connection: {
       host: process.env.DB_HOST || 'localhost',
       database: process.env.DB_SCHEMA || 'my_db',

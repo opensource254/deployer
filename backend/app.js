@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 
 const authRouter = require('./routes/auth')
+const passwordResetRouter = require('./routes/password')
 const appsRouter = require('./routes/applications')
 const webhooksRouter = require('./routes/webhooks')
 const statsRouter = require('./routes/stats')
@@ -34,6 +35,7 @@ app.use(cookieParser())
 
 app.use(webhooksRouter)
 app.use('/auth', authRouter)
+app.use('/password', passwordResetRouter)
 app.use('/applications', appsRouter)
 app.use('/stats', statsRouter)
 

@@ -12,12 +12,12 @@ if (email.auth.user && email.auth.password) {
   auth = false
 }
 
-console.log(email)
 const mailer = transport.createTransport({
   host: '127.0.0.1',
   port: email.port,
   secure: email.secure,
   auth,
+  from: email.from,
 })
 
 module.exports = mailer

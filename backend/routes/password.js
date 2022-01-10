@@ -6,7 +6,6 @@ const mailer = require('../mail/mailer')
 
 router.post('/reset', async (req, res, next) => {
   const { email } = req.body
-  console.log(email)
   const user = User.where({ email }).first()
 
   if (!user) {

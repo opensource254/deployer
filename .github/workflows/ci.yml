@@ -21,16 +21,21 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: echo "Installing dependencies ⌛️"
-    - run: npm ci
-    - run: npm i knex
-    - run: echo "Building the client 🧱"
-    - run: npm run build --if-present
-    - run: echo "Linting the code 👀"
-    - run: npm run lint
-    - run: echo "Running the tests 🧪"
-    - run: sudo systemctl start mysql.service
-    - run: sudo mysql -e 'DROP DATABASE IF EXISTS deployer;' -proot
-    - run: sudo mysql -e 'CREATE DATABASE deployer;' -proot
-    - run: npx knex migrate:latest
-    - run: npm test
+    - run: |
+            cp .env.example .env
+            echo "Installing dependencies ⌛️"
+            npm ci
+            npm i knex
+    - run: |
+            echo "Building the client 🧱"
+            npm run build --if-present
+    - run: |
+            echo "Linting the code 👀"
+            npm run lint
+    - run: |
+            echo "Running the tests 🧪"
+            sudo systemctl start mysql.service
+            sudo mysql -e 'DROP DATABASE IF EXISTS deployer;' -proot
+            sudo mysql -e 'CREATE DATABASE deployer;' -proot
+            npx knex migrate:latest
+            npm test

@@ -1,6 +1,6 @@
 
 # Deployer
-![Node.js CI](https://github.com/opensource254/deployer/workflows/Node.js%20CI/badge.svg)
+> Deployer is a self-hosted, open-source, self-configuring tool for deploying your projects to the cloud. It is designed to be as easy to use as possible, and to make it easy to get started.
 
 ## Build Setup
 

@@ -21,6 +21,10 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    - run: sudo systemctl start mysql.service
+    - run: sudo mysql -e 'DROP DATABASE IF EXISTS deployer;' -proot
+    - run: sudo mysql -e 'CREATE DATABASE deployer;' -proot
+    - run: npx knex migrate:latest
     - run: echo "Installing dependencies ⌛️"
     - run: npm ci
     - run: echo "Building the client 🧱"

@@ -22,6 +22,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: |
+            docker run --name Redis --publish 6379:6379 --detach redis:latest
             cp .env.example .env
             echo "Installing dependencies ⌛️"
             npm ci

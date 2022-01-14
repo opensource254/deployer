@@ -11,7 +11,7 @@ class AuthController extends Controller {
    */
   async attempt(req, res, next) {
     const failedResponse = {
-      errors: { email: ['These credentials do not match our records'] },
+      errors: { email: ['These credentials do not match our records.'] },
     }
     const { email, password } = req.body
     try {
@@ -39,10 +39,13 @@ class AuthController extends Controller {
    */
   async getUser(req, res, next) {
     const failedResponse = {
-      message: 'You are not authenticated',
+      message: 'You are not authenticated.',
     }
 
     const { userId } = req.session
+    if (!userId) {
+      return res.status(401).json(failedResponse)
+    }
     try {
       const user = await User.find(userId)
       if (!user) {
@@ -57,20 +60,17 @@ class AuthController extends Controller {
 
   /**
    * End a user's session
-   * @param {*} req
-   * @param {*} res
+   * @param {import('express').Request} req
+   * @param {import('express').Response} res
+   * @param {import('express').NextFunction} next
    */
-  logout(req, res) {
-    const userId = req.session
-    if (!userId) {
-      return res.json({
-        message: 'You are not authenticated',
-      })
+  logout(req, res, next) {
+    try {
+      req.session.destroy()
+      res.json({ message: 'You are now logged out.' })
+    } catch (error) {
+      next(error)
     }
-    req.session = null
-    return res.json({
-      message: "You've been logged out",
-    })
   }
 }
 

@@ -13,4 +13,5 @@ class User extends Model {
     return this.create(details)
   }
 }
+
 module.exports = User

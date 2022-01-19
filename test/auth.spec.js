@@ -102,29 +102,28 @@ describe('Authentication', function () {
     expect(res.body.message).to.equal('You are not authenticated.')
   })
 
-  // it('should be able to reset password', async function () {
-  //   const email = faker.internet.email()
-  //   const password = faker.internet.password()
-  //   const name = faker.name.findName()
-  //   const user = await User.register({
-  //     name,
-  //     email,
-  //     password,
-  //   })
-  //   const res = await app.post('/auth/login').send({
-  //     email,
-  //     password,
-  //   })
-  //   expect(res).to.have.status(200)
-  //   const res2 = await app.post('/password/reset').send({
-  //     email,
-  //   })
-  //   console.log(res2.body)
-  //   expect(res2).to.have.status(200)
-  //   expect(res2.body.message).to.equal('Password reset email sent.')
+  it('should be able to reset password', async function () {
+    const email = faker.internet.email()
+    const password = faker.internet.password()
+    const name = faker.name.findName()
+    const user = await User.register({
+      name,
+      email,
+      password,
+    })
+    const res = await app.post('/auth/login').send({
+      email,
+      password,
+    })
+    expect(res).to.have.status(200)
+    const res2 = await app.post('/password/reset').send({
+      email,
+    })
+    expect(res2).to.have.status(200)
+    expect(res2.body.message).to.equal('Check your email for a reset link.')
 
-  //   await User.destroy(user.id)
-  // })
+    await User.destroy(user.id)
+  })
 
   // it('should be able to change password', async function () {
   //   const email = faker.internet.email()

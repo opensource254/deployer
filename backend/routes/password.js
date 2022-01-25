@@ -57,4 +57,60 @@ router.post('/reset', async (req, res, next) => {
   }
 })
 
+router.post('/update', async (req, res, next) => {
+  const { email, token, password } = req.body
+  const user = await User.where({ email }).first()
+
+  if (!user) {
+    return res.status(422).json({
+      errors: {
+        email: ['This email does not match our records'],
+      },
+    })
+  }
+
+  const passwordReset = await DB('password_resets')
+    .where({
+      email,
+    })
+    .first()
+
+  if (!passwordReset) {
+    return res.status(422).json({
+      errors: {
+        email: ['The given token is invalid!'],
+      },
+    })
+  }
+
+  if (passwordReset.token !== token) {
+    return res.status(422).json({
+      errors: {
+        email: ['The given token is invalid!'],
+      },
+    })
+  }
+
+  const now = new Date()
+  const expiresAt = new Date(passwordReset.created_at)
+  expiresAt.setMinutes(expiresAt.getMinutes() + 30)
+
+  if (now > expiresAt) {
+    return res.status(422).json({
+      errors: {
+        email: ['This email does not match our records'],
+      },
+    })
+  }
+
+  user.password = password
+  await user.save()
+
+  await DB('password_resets').where({ email }).delete()
+
+  return res.json({
+    message: 'Password updated successfully.',
+  })
+})
+
 module.exports = router

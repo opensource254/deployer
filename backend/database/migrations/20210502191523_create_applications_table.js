@@ -6,6 +6,7 @@
 exports.up = function (knex) {
   return knex.schema.createTable('applications', (table) => {
     table.bigIncrements('id')
+    table.boolean('locked').defaultTo(false)
     table.string('name')
     table.string('full_name')
     table.string('description').defaultTo('No description provided')

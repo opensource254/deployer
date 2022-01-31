@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 const { execFile, exec } = require('child_process')
+const { writeFile } = require('fs/promises')
 const path = require('path')
 const Controller = require('./controller')
 
@@ -33,144 +34,137 @@ class WebhookController extends Controller {
       return res.status(400).json('Repository name is missing')
     }
     res.status(201).json(`Webhook received for ${full_name}`)
-    const app = await this._DB('applications')
-      .where({ full_name: req.body.repository.full_name })
-      .first()
-    if (app) {
-      const [deploymentId] = await this._DB('deployments').insert({
-        application_id: app.id,
-        log: '',
-        successful: 0,
-      })
-      const deploy = execFile(
-        path.resolve(__dirname, '../../../bin/deploy.sh'),
-        [app.deploy_directory, app.clone_url, app.deploy_branch]
-      )
-      // create a write stream and pipe the output to it
-      let output = ''
-      let errorOutput = ''
-      deploy.on('close', async (code) => {
-        if (code !== 0) {
-          return await this._DB('deployments')
-            .where({ id: deploymentId })
-            .update({
-              application_id: app.id,
-              log: errorOutput,
-              successful: 0,
-              updated_at: new Date(),
-            })
-        }
-        // run the application post deploy script
-        const postDeploy = exec(
-          `cd ${app.deploy_directory}${app.name} && ${app.deploy_script} && echo "$(date): Deployment successful"`,
-          (_err, output, warning) => {
-            if (warning) {
-              output += warning
-            }
-          }
-        )
-        postDeploy
-          .on('error', (err) => {
-            errorOutput += err
-          })
-          .on('message', (m) => {
-            output += m
-          })
-
-        postDeploy.stdout.on('data', (c) => {
-          output += c
-        })
-
-        postDeploy.stderr.on('data', (c) => {
-          errorOutput += c
-        })
-
-        postDeploy.on('close', async (code) => {
-          if (code !== 0) {
-            return await this._DB('deployments')
-              .where({ id: deploymentId })
-              .update({
-                application_id: app.id,
-                log: errorOutput,
-                successful: 0,
-                updated_at: new Date(),
-              })
-          }
-          return await this._DB('deployments')
-            .where({ id: deploymentId })
-            .update({
-              application_id: app.id,
-              log: output,
-              successful: 1,
-              updated_at: new Date(),
-            })
-        })
-      })
-
-      deploy.stdout.on('data', (c) => {
-        output += c
-      })
-
-      deploy.stderr.on('data', (c) => {
-        errorOutput += c
-      })
-
-      deploy.on('error', (err) => {
-        errorOutput += err
-      })
-
-      deploy.on('message', (m) => {
-        output += m
-      })
-    }
+    await this.deploy(full_name)
   }
 
+
   /**
-   * Handle the webhook and send the progress to socket.io connection
-   * Return a 201 status code to Github
-   * Save the log in the database
+   * Handle the Bitbucket webhook
    * @param {import('express').Request} req
    * @param {import('express').Response} res
    * @param {import('express').NextFunction} next
    * @returns {Promise<void>}
-   * @private
-   * @memberof WebhookController
-   * @static
-   * @method github
-   * @alias WebhookController.github
-   * @since 0.0.1
-   * @category webhook
-   * @description Handle the github webhook
-   * @example
    */
-  async handle(req, res, next) {
-    const app = await this._DB('applications')
-      .where({ full_name: req.body.repository.full_name })
-      .first()
-    if (app) {
-      const deploy = exec(app.command, async (_err, output, warning) => {
-        await this._DB('deployments').insert({
-          application_id: app.id,
-          log: output,
-          successful: 1,
-        })
-      })
-      deploy
-        .on('error', (err) => {
-          // eslint-disable-next-line no-console
-          console.log(err.stack)
-        })
-        .on('message', (m) => {
-          // eslint-disable-next-line no-console
-          console.log(m)
+  async bitbucket(req, res, next) {
+    if (!req.body.repository) {
+      return res.status(400).json('No repository provided')
+    }
+    const { full_name } = req.body.repository
+    if (!full_name) {
+      return res.status(400).json('Repository name is missing')
+    }
+    res.status(201).json(`Webhook received for ${full_name}`)
+    await this.deploy(full_name)
+  }
+
+  /** 
+    * Handle the Gitlab webhook
+    * @param {import('express').Request} req
+    * @param {import('express').Response} res
+    * @param {import('express').NextFunction} next
+    * @returns {Promise<void>}
+    */
+  async gitlab(req, res, next) {
+    if (!req.body.project) {
+      return res.status(400).json('No repository provided')
+    }
+    const { path_with_namespace } = req.body.project
+    if (!path_with_namespace) {
+      return res.status(400).json('Repository name is missing')
+    }
+    res.status(201).json(`Webhook received for ${path_with_namespace}`) // TODO: This is not the correct webhook from Gitlab
+    await this.deploy(path_with_namespace)
+  }
+
+
+  /**
+   * Handle the deployment
+   * @param {String} appName
+   * @returns {Promise<void>}
+   */
+  async deploy(appName) {
+    let errorLog = ''
+    let successLog = ''
+
+    try {
+      const app = await this._DB('applications')
+        .where({ full_name: appName })
+        .first()
+
+      if (app) {
+        await this._DB('applications')
+          .where({ id: app.id }).update({
+            locked: true,
+          })
+        const [deploymentId] = await this._DB('deployments')
+          .insert({
+            application_id: app.id,
+            log: '',
+            successful: 0,
+            status: 'pending',
+          })
+        const deploy = execFile(
+          path.resolve(__dirname, '../../../bin/deploy.sh'),
+          [app.deploy_directory, app.clone_url, app.deploy_branch]
+        )
+
+        deploy.on('close', async (code) => {
+          if (code !== 0) {
+            await this._DB('deployments')
+              .where({ id: deploymentId })
+              .update({
+                application_id: app.id,
+                log: errorLog,
+                successful: 0,
+                status: 'failed',
+                updated_at: new Date(),
+              })
+          } else {
+            await this._DB('deployments')
+              .where({ id: deploymentId })
+              .update({
+                application_id: app.id,
+                log: successLog,
+                successful: 1,
+                status: 'success',
+                updated_at: new Date(),
+              })
+          }
         })
 
-      deploy.stdout.on('data', (c) => {
-        this.io.emit('deployment', c)
-      })
+        deploy.stdout.on('data', (c) => {
+          successLog += c
+        })
+        deploy.stderr.on('data', (c) => {
+          errorLog += c
+        })
+
+        deploy.on('error', (err) => {
+          errorLog += err
+        })
+
+        deploy.on('message', (m) => {
+          successLog += m
+        })
+
+        await this._DB('applications')
+          .where({ id: app.id })
+          .update({
+            locked: false,
+          })
+
+        return
+      }
     }
-    res.status(201).json('') // Return 201 to Github
+    catch (err) {
+      await writeFile('logs/deploy.log', new Date() + ': ')
+      await writeFile('logs/deploy.log', new Error(err).name, { flag: 'a' })
+      await writeFile('logs/deploy.log', new Error(err).message, { flag: 'a' })
+      await writeFile('logs/deploy.log', new Error(err).stack, { flag: 'a' })
+      await writeFile('logs/deploy.log', '\n', { flag: 'a' })
+    }
   }
+
 }
 
 module.exports = new WebhookController()

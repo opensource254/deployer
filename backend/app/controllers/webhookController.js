@@ -5,6 +5,20 @@ const Controller = require('./controller')
 
 class WebhookController extends Controller {
   /**
+   * Ping the webhook endpoint to check if it's working
+   * @param {import('express').Request} req 
+   * @param {import('express').Response} res 
+   * @param {import('express').NextFunction} next 
+   * @returns 
+   */
+  async ping(req, res, next) {
+    return res.json({
+      message: 'pong',
+    })
+  }
+
+
+  /**
    * Handle the github webhook
    * @param {import('express').Request} req
    * @param {import('express').Response} res
@@ -12,13 +26,13 @@ class WebhookController extends Controller {
    */
   async github(req, res, next) {
     if (!req.body.repository) {
-      return res.status(400).jsonp('No repository provided')
+      return res.status(400).json('No repository provided')
     }
     const { full_name } = req.body.repository
     if (!full_name) {
-      return res.status(400).jsonp('Repository name is missing')
+      return res.status(400).json('Repository name is missing')
     }
-    res.status(201).json('') // Return 201 to Github
+    res.status(201).json(`Webhook received for ${full_name}`)
     const app = await this._DB('applications')
       .where({ full_name: req.body.repository.full_name })
       .first()

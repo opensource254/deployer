@@ -21,7 +21,7 @@
     "cookie-parser": "^1.4.6",
     "core-js": "^3.20.3",
     "debug": "^4.3.3",
-    "dotenv": "^10.0.0",
+    "dotenv": "^14.3.2",
     "express": "^4.17.2",
     "express-session": "^1.17.2",
     "knex": "^0.95.15",

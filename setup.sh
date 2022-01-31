@@ -59,7 +59,7 @@ echo "DB_CLIENT=$DB_CLIENT" >> .env
 
 read -p "What is your database host? (default localhost): " DB_HOST
 if [ -z "$DB_HOST" ]; then
-    DB_HOST=localhost
+    DB_HOST=127.0.0.1
 fi
 echo "DB_HOST=$DB_HOST" >> .env
 

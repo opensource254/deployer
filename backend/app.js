@@ -33,7 +33,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 
-app.use(webhooksRouter)
+app.use('/webhooks',webhooksRouter)
 app.use('/auth', authRouter)
 app.use('/password', passwordResetRouter)
 app.use('/applications', appsRouter)

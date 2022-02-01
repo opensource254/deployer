@@ -1,6 +1,6 @@
-const Controller = require('./controller')
+const { DB } = require('mevn-orm')
 
-class Statscontroller extends Controller {
+class Statscontroller {
   /**
    * Get the data for the stats page
    *
@@ -10,15 +10,15 @@ class Statscontroller extends Controller {
    */
   async getStats(req, res, next) {
     try {
-      const applicationCount = await this._DB('applications').count(
+      const applicationCount = await DB('applications').count(
         'id AS appCount'
       )
-      const failedDeployments = await this._DB('deployments')
+      const failedDeployments = await DB('deployments')
         .where({
           successful: false,
         })
         .count('id AS failedDeploymentCount')
-      const successfulDeployments = await this._DB('deployments')
+      const successfulDeployments = await DB('deployments')
         .where({
           successful: true,
         })
@@ -49,7 +49,7 @@ class Statscontroller extends Controller {
    */
   async getDeployments(req, res, next) {
     try {
-      const deployments = await this._DB('deployments')
+      const deployments = await DB('deployments')
         .join('applications', 'applications.id', 'deployments.application_id')
         .select('deployments.*', 'applications.name AS applicationName')
         .orderBy('deployments.created_at', 'DESC')
@@ -70,7 +70,7 @@ class Statscontroller extends Controller {
    **/
   async getDeployment(req, res, next) {
     try {
-      const deployment = await this._DB.raw(
+      const deployment = await DB.raw(
         `SELECT deployments.log, deployments.created_at, deployments.successful, deployments.id, TIMEDIFF(deployments.updated_at, deployments.created_at) AS duration, applications.name AS applicationName FROM deployments JOIN applications ON applications.id = deployments.application_id WHERE deployments.id = ${req.params.id} limit 1`
       )
 

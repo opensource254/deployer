@@ -3,6 +3,7 @@ const { execFile, exec } = require('child_process')
 const { writeFile } = require('fs/promises')
 const path = require('path')
 const Controller = require('./controller')
+const { mail, slack, notifications } = require('../../notifications/notification')
 
 class WebhookController extends Controller {
   /**
@@ -83,6 +84,7 @@ class WebhookController extends Controller {
    * @returns {Promise<void>}
    */
   async deploy(appName) {
+    console.log('Deploying')
     let errorLog = ''
     let successLog = ''
 
@@ -153,7 +155,9 @@ class WebhookController extends Controller {
             locked: false,
           })
 
-        return
+        console.log(`Deployment of ${appName} finished`)
+
+        return this._sendNotifications()
       }
     }
     catch (err) {
@@ -165,6 +169,30 @@ class WebhookController extends Controller {
     }
   }
 
+  /**
+   * Send notifications to the user
+    * @param {import('../models/user').User} user
+    * @param {String} type
+    * @param {String} content
+    * @returns {Promise<void>}
+    * @private
+    * @memberof WebhookController
+    */
+  async _sendNotifications(user, type, content) {
+    console.log('Sending notifications')
+    try {
+      mail(user, type, content)
+      await slack(user, type, content)
+      await notifications(user, type, content)
+    } catch (error) {
+      console.log(error)
+      await writeFile('logs/notifications.log', new Date() + ': ')
+      await writeFile('logs/notifications.log', new Error(error).name, { flag: 'a' })
+      await writeFile('logs/notifications.log', new Error(error).message, { flag: 'a' })
+      await writeFile('logs/notifications.log', new Error(error).stack, { flag: 'a' })
+      await writeFile('logs/notifications.log', '\n', { flag: 'a' })
+    }
+  }
 }
 
 module.exports = new WebhookController()

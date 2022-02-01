@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "private": true,
   "scripts": {
-    "test": "nyc mocha --bail --exit",
+    "test": "nyc mocha --bail",
     "dev": "DEBUG=express* nuxt",
     "build": "nuxt build",
     "start": "nuxt start",

@@ -20,24 +20,24 @@ $ npm run generate
 ```
 
 ## Endpoints
-API endpoints
+API endpoints can be used to for mobile authentication
 ### Authentication
-|  Path            |     Method      |   Description                     |  Parameters            |
-|:-----------------|:----------------|:----------------------------------|:-----------------------|
-|  `/api`          |       GET       |The API root                       |  None                  |
-|  `/api/regsiter` |       POST      |Create a new account               | `name,email, password` |
-|  `/api/login`    |       POST      |Authenticate a user                | `email,password`       |
-|  `/api/logout`   |       POST      |End the session of the current user|  none                  |
-|  `/api/user`     |       GET       |Get the current authenticated user |  none                  |
+|  Path            |     Method      |   Description                     |  Parameters             |
+|:-----------------|:----------------|:----------------------------------|:------------------------|
+|  `/auth/login`    |       POST      |Authenticate a user                | `email,password`       |
+|  `/auth/logout`   |       POST      |End the session of the current user|  none                  |
+|  `/auth/user`     |       GET       |Get the current authenticated user |  none                  |
 
-### Config routes
+### Application routes
+> These are routes to your apps
+
 |   Path             |    Method   |   Description                     |  Parameters                |
 |:-------------------|:------------|:----------------------------------|:---------------------------|
-| `/api/config`      |    GET      | Get all the configs               | none                       |
-| `/api/config/{id}` |    GET      | Get a config by database ID       | none                       |
-| `/api/config`      |    POST     | Create a config                   | `name,description,command` |
-| `/api/config/{id}` |    DELETE   | Delete a config from the database | none                       |
-| `/api/config/{id}` |    PUT/PATH | Update a config in the database   | `name,description,command` |
+| `/applications`    |    GET      | Get all the configs               | none                       |
+| `/aplications/{id}`|    GET      | Get a config by database ID       | none                       |
+| `/applications`    |    POST     | Create a config                   | `name,description,command` |
+| `/applications/{id}` |  DELETE   | Delete a config from the database | none                       |
+| `/applications/{id}` |  PUT/PATH | Update a config in the database   | `name,description,command` |
 
 ### Webhooks
 | Path         | Method | Description                  |

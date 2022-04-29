@@ -27,7 +27,7 @@
     "mevn-orm": "^2.2.12",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
-    "nodemailer": "^6.7.2",
+    "nodemailer": "^6.7.4",
     "nuxt": "^2.2.0",
     "redis": "^3.1.2",
     "sessionstore": "^0.4.8",

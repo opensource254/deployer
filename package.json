@@ -31,7 +31,7 @@
     "nuxt": "^2.2.0",
     "redis": "^3.1.2",
     "sessionstore": "^0.4.8",
-    "vee-validate": "^3.4.14"
+    "vee-validate": "^4.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.16.7",

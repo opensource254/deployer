@@ -6,9 +6,9 @@ const mailer = require('../mail/mailer')
 
 router.post('/reset', async (req, res, next) => {
   const { email } = req.body
-  const user = User.where({ email }).first()
+  const user = await User.where({ email }).first()
 
-  if (!user.email) {
+  if (!user) {
     return res.status(422).json({
       errors: {
         email: ['This email does not match our records'],

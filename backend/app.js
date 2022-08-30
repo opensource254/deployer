@@ -40,10 +40,29 @@ app.use('/applications', appsRouter)
 app.use('/stats', statsRouter)
 
 app.use(function (err, req, res, next) {
-  fs.writeFileSync('logs/error.log', err.stack, { flag: 'a' })
-  fs.writeFileSync('logs/error.log', '\n-----------------------------\n', {
-    flag: 'a',
-  })
+  const date = new Date()
+  fs.writeFileSync(
+    `logs/${date.getFullYear()}-${date.getMonth()}-${date.getDate()}.log`,
+    date.toUTCString() + '\n',
+    { flag: 'a' }
+  )
+  fs.writeFileSync(
+    `logs/${date.getFullYear()}-${date.getMonth()}-${date.getDate()}.log`,
+    err.message + '\n',
+    { flag: 'a' }
+  )
+  fs.writeFileSync(
+    `logs/${date.getFullYear()}-${date.getMonth()}-${date.getDate()}.log`,
+    err.stack,
+    { flag: 'a' }
+  )
+  fs.writeFileSync(
+    `logs/${date.getFullYear()}-${date.getMonth()}-${date.getDate()}.log`,
+    '\n-----------------------------\n',
+    {
+      flag: 'a',
+    }
+  )
   res.status(500).json('Something broke!')
 })
 module.exports = app

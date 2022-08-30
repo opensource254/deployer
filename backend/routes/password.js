@@ -8,7 +8,7 @@ router.post('/reset', async (req, res, next) => {
   const { email } = req.body
   const user = User.where({ email }).first()
 
-  if (!user) {
+  if (!user.email) {
     return res.status(422).json({
       errors: {
         email: ['This email does not match our records'],

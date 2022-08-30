@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <v-card rounded outlined>
     <!--Alerts-->
@@ -63,9 +64,11 @@ export default {
           case 500:
             this.messages.error = 'Internal server error.'
             break
+          case 422:
+            this.messages.error = 'We could not find a user with that email'
+            break
           default:
-            this.messages.error =
-              'Something went wrong please check the server logs.'
+            this.messages.error = error.response.data
             break
         }
       }

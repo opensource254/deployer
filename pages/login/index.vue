@@ -1,5 +1,24 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <v-card rounded outlined>
+    <!--Alerts-->
+    <v-alert
+      v-if="messages.error"
+      v-model="messages.error"
+      type="error"
+      dismissible
+    >
+      {{ messages.error }}
+    </v-alert>
+    <v-alert
+      v-if="messages.success"
+      v-model="messages.success"
+      type="success"
+      dismissible
+    >
+      {{ messages.success }}
+    </v-alert>
+    <!--End Alerts-->
     <v-card-title>Sign in</v-card-title>
     <v-card-text>
       <ValidationObserver v-slot="{ invalid }">
@@ -65,6 +84,10 @@ export default {
         email: null,
         password: null,
       },
+      messages: {
+        success: null,
+        error: null,
+      },
     }
   },
 
@@ -73,13 +96,17 @@ export default {
       try {
         await this.$auth.loginWith('cookie', { data: this.credentials })
       } catch (error) {
-        if (error.response.status === 500) {
-          throw new Error(error)
+        switch (error.response.status) {
+          case 500:
+            this.messages.error = 'Internal server error.'
+            break
+          case 422:
+            this.messages.error = 'Authentication failed 😢'
+            break
+          default:
+            this.messages.error = error.response.data
+            break
         }
-        this.err = error.response.data.message
-        setTimeout(() => {
-          this.err = null
-        }, 5000)
       }
     },
   },

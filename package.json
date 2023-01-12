@@ -23,7 +23,7 @@
     "dotenv": "^16.0.1",
     "express": "^4.17.2",
     "express-session": "^1.17.2",
-    "knex": "^2.2.0",
+    "knex": "^2.4.0",
     "mevn-orm": "^2.4.1",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",

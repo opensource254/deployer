@@ -18,7 +18,7 @@
     "@nuxtjs/vuetify": "^1.12.3",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",
-    "core-js": "^3.20.2",
+    "core-js": "^3.27.1",
     "debug": "^4.3.3",
     "dotenv": "^16.0.1",
     "express": "^4.17.2",

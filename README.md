@@ -25,7 +25,7 @@ API endpoints
 |  Path            |     Method      |   Description                     |  Parameters            |
 |:-----------------|:----------------|:----------------------------------|:-----------------------|
 |  `/api`          |       GET       |The API root                       |  None                  |
-|  `/api/regsiter` |       POST      |Create a new account               | `name,email, password` |
+|  `/api/register` |       POST      |Create a new account               | `name,email, password` |
 |  `/api/login`    |       POST      |Authenticate a user                | `email,password`       |
 |  `/api/logout`   |       POST      |End the session of the current user|  none                  |
 |  `/api/user`     |       GET       |Get the current authenticated user |  none                  |

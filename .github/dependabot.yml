@@ -7,9 +7,9 @@ updates:
     interval: monthly
   open-pull-requests-limit: 10
   reviewers:
-    - stanley masinde
+    - stanleymasinde
   assignees:
-    - stanley masinde
+    - stanleymasinde
   commit-message:
     prefix: fix
     prefix-development: chore

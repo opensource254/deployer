@@ -22,7 +22,7 @@
     "debug": "^4.3.3",
     "dotenv": "^16.4.1",
     "express": "^4.17.2",
-    "express-session": "^1.17.2",
+    "express-session": "^1.18.0",
     "knex": "^2.4.0",
     "mevn-orm": "^2.4.1",
     "morgan": "^1.10.0",

@@ -30,7 +30,7 @@
     "nodemailer": "^6.7.2",
     "nuxt": "^3.0.0",
     "redis": "^3.1.2",
-    "sessionstore": "^0.4.8",
+    "sessionstore": "^1.0.0",
     "vee-validate": "^3.4.14"
   },
   "devDependencies": {

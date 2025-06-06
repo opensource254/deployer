@@ -1,0 +1,7 @@
+{
+  // https://nuxt.com/docs/guide/concepts/typescript
+  "extends": "./.nuxt/tsconfig.json",
+  "exclude": [
+    "project_backup_20250606222332"
+  ]
+}

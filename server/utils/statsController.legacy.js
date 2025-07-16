@@ -71,7 +71,8 @@ class Statscontroller extends Controller {
   async getDeployment(req, res, next) {
     try {
       const deployment = await this._DB.raw(
-        `SELECT deployments.log, deployments.created_at, deployments.successful, deployments.id, TIMEDIFF(deployments.updated_at, deployments.created_at) AS duration, applications.name AS applicationName FROM deployments JOIN applications ON applications.id = deployments.application_id WHERE deployments.id = ${req.params.id} limit 1`
+        `SELECT deployments.log, deployments.created_at, deployments.successful, deployments.id, TIMEDIFF(deployments.updated_at, deployments.created_at) AS duration, applications.name AS applicationName FROM deployments JOIN applications ON applications.id = deployments.application_id WHERE deployments.id = ? limit 1`,
+        [req.params.id]
       )
 
       if (!deployment[0]) {

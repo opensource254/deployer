@@ -224,6 +224,10 @@ export default {
         name: null,
         full_name: null,
         command: null,
+        clone_url: null,
+        deploy_branch: null,
+        deploy_directory: null,
+        deploy_script: null,
       },
     }
   },
